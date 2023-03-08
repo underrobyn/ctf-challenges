@@ -1,0 +1,9 @@
+# IDE generated files
+.idea
+.vscode
+
+
+# Python specific files
+venv
+__pycache__
+
