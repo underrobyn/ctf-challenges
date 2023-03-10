@@ -27,6 +27,11 @@ Upon user account creation, the DatabaseManager class leaks the location of the 
 The user is able to download users.db, viewing the admin account password.
 
 
+### Web-JasonsToken
+
+Jason is learning about JWTs, but he forgot to set a key! So the data can be modified by a client...
+
+
 ### Web-Swagger
 
 FastAPI Python application which has automatically generated API endpoints.
