@@ -42,3 +42,11 @@ if (!isset($_SESSION['start'])) {
     $_SESSION['logged_in'] = false;
     $_SESSION['token'] = get_random_str(16);
 }
+
+// Set CSP
+header("Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; font-src 'self' fonts.gstatic.com");
+
+// Set error reporting settings
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);

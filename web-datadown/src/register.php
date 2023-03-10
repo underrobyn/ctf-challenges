@@ -7,44 +7,60 @@ check_user_anonymous();
 // SQLite database file path
 $db_file = 'users.db';
 
-// Get registration form data
+$errors = '';
+
+// Get login form data
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // Connect to database
-    $db = new SQLite3($db_file);
-
-    // Check if username or email already exists
-    $stmt = $db->prepare('SELECT COUNT(*) FROM Users WHERE username = :username OR email = :email');
-
-    $stmt->bindValue(':username', $username, SQLITE3_TEXT);
-    $stmt->bindValue(':email', $email, SQLITE3_TEXT);
-
-    $result = $stmt->execute();
-    $count = $result->fetchArray(SQLITE3_NUM)[0];
-
-    if ($count > 0) {
-        echo 'Username or email already exists';
+    if (empty($_POST['username']) or empty($_POST['email']) or empty($_POST['password'])) {
+        $errors = 'Please fill in the entire form!';
     } else {
-        // Insert new user
-        $stmt = $db->prepare('INSERT INTO Users (username, email, password) VALUES (:username, :email, :password)');
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        // Connect to database
+        $db = new SQLite3($db_file);
+
+        // Check if username or email already exists
+        $stmt = $db->prepare('SELECT COUNT(*) FROM Users WHERE username = :username OR email = :email');
+
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
         $stmt->bindValue(':email', $email, SQLITE3_TEXT);
-        $stmt->bindValue(':password', secure_password_hash($password), SQLITE3_TEXT);
 
         $result = $stmt->execute();
+        $count = $result->fetchArray(SQLITE3_NUM)[0];
 
-        if ($result) {
-            echo 'Registration successful';
+        if ($count > 0) {
+            $errors = 'Username or Email already taken.';
         } else {
-            echo 'Registration failed';
-        }
-    }
+            // Insert new user
+            $stmt = $db->prepare('INSERT INTO Users (username, email, password) VALUES (:username, :email, :password)');
+            $stmt->bindValue(':username', $username, SQLITE3_TEXT);
+            $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+            $stmt->bindValue(':password', secure_password_hash($password), SQLITE3_TEXT);
 
-    // Close database connection
-    $db->close();
+            try {
+                $result = $stmt->execute();
+            } catch(Exception $exception) {
+                echo '<h1>Database error!</h1>';
+                echo $db->lastErrorMsg();
+                echo $exception->getMessage();
+                print_r( $exception->getTrace() );
+            }
+
+            if ($result) {
+                $errors = 'Account registered! You can now <a href="/login.php" class="fw-bold">login here</a>!';
+            } else {
+                $errors = 'Registration failed.';
+                // TODO: Remove this debugging code
+                echo $db->lastErrorMsg();
+                print_r( $db );
+            }
+        }
+
+        // Close database connection
+        $db->close();
+    }
 }
 ?>
 <!DOCTYPE HTML>
@@ -83,16 +99,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
                                     <p class="text-white-50 mb-5">Please use the form below to create an account:</p>
 
+                                    <?php
+                                    if ($errors !== '') {
+                                        echo "<div class='alert alert-danger' role='alert'>{$errors}</div>";
+                                    }
+                                    ?>
+
                                     <form method="POST" action="/register.php">
                                         <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
 
                                         <div class="form-outline form-white mb-4">
-                                            <input type="text" id="username" class="form-control form-control-lg" />
+                                            <input type="text" id="username" name="username" class="form-control form-control-lg" />
                                             <label class="form-label" for="username">Username</label>
                                         </div>
 
                                         <div class="form-outline form-white mb-4">
-                                            <input type="email" id="email" class="form-control form-control-lg" />
+                                            <input type="email" id="email" name="email" class="form-control form-control-lg" />
                                             <label class="form-label" for="email">Email</label>
                                         </div>
 
@@ -119,6 +141,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
         </section>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+                integrity="sha512-ec1IDrAZxPSKIe2wZpNhxoFIDjmqJ+Z5SGhbuXZrw+VheJu2MqqJfnYsCD8rf71sQfKYMF4JxNSnKCjDCZ/Hlw=="
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"></script>
 
     </body>
 </html>

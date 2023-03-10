@@ -25,8 +25,8 @@ $db->exec('CREATE TABLE IF NOT EXISTS Users (
 
 // Insert admin user
 $username = 'admin';
-$email = 'admin@admin.com';
-$password = file_get_contents('/flag.txt');
+$email = 'flagmaster@localhost.localdomain';
+$password = get_random_str(8);
 
 $stmt = $db->prepare('INSERT INTO Users (username, email, password) VALUES (:username, :email, :password)');
 

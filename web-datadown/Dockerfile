@@ -1,4 +1,4 @@
-FROM php:8.1-apache-bullseye
+FROM php:8.1.16-apache-bullseye
 
 USER root
 
@@ -11,9 +11,6 @@ RUN install-php-extensions pdo_mysql pdo_sqlite sodium
 # Set hostname for development
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Switch to local user
-USER www-data
-
 # Copy source to html folder
 COPY src/ /var/www/html/
 COPY flag.txt /flag.txt
@@ -23,5 +20,11 @@ WORKDIR /var/www/html
 
 # Create database
 RUN php create-database.php
+
+# Update file permissions
+RUN chmod 655 /var/www/html/users.db
+
+# Switch to local user
+USER www-data
 
 EXPOSE 80

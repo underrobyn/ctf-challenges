@@ -29,8 +29,16 @@ check_user_logged_in();
     </head>
     <body>
         <?php
-            echo 'You are logged in as: ' . $_SESSION['username'];
-            phpinfo();
+            echo 'You are logged in as: ' . $_SESSION['username'] . '<br />';
+            if ($_SESSION['username'] === 'admin') {
+                echo file_get_contents('/flag.txt');
+            }
+            session_destroy();
         ?>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+                integrity="sha512-ec1IDrAZxPSKIe2wZpNhxoFIDjmqJ+Z5SGhbuXZrw+VheJu2MqqJfnYsCD8rf71sQfKYMF4JxNSnKCjDCZ/Hlw=="
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"></script>
     </body>
 </html>
