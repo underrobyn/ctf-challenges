@@ -16,6 +16,7 @@ USER www-data
 
 # Copy source to html folder
 COPY src/ /var/www/html/
+COPY flag.txt /flag.txt
 
 # Set workdir as ./web
 WORKDIR /var/www/html
