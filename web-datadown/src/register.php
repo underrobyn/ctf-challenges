@@ -4,9 +4,6 @@ require('includes/init.php');
 
 check_user_anonymous();
 
-// SQLite database file path
-$db_file = 'users.db';
-
 $errors = '';
 
 // Get login form data
@@ -19,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['password'];
 
         // Connect to database
-        $db = new SQLite3($db_file);
+        $dbm = new database();
+        $db = $dbm->getInstance();
 
         // Check if username or email already exists
         $stmt = $db->prepare('SELECT COUNT(*) FROM Users WHERE username = :username OR email = :email');
@@ -43,18 +41,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $result = $stmt->execute();
             } catch(Exception $exception) {
                 echo '<h1>Database error!</h1>';
-                echo $db->lastErrorMsg();
-                echo $exception->getMessage();
-                print_r( $exception->getTrace() );
             }
 
             if ($result) {
                 $errors = 'Account registered! You can now <a href="/login.php" class="fw-bold">login here</a>!';
             } else {
                 $errors = 'Registration failed.';
+
                 // TODO: Remove this debugging code
-                echo $db->lastErrorMsg();
-                print_r( $db );
+                print_r( $dbm );
             }
         }
 

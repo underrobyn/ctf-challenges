@@ -4,9 +4,6 @@ require('includes/init.php');
 
 check_user_anonymous();
 
-// SQLite database file path
-$db_file = 'users.db';
-
 $errors = '';
 
 // Get login form data
@@ -18,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['password'];
 
         // Connect to database
-        $db = new SQLite3($db_file);
+        $dbm = new database();
+        $db = $dbm->getInstance();
 
         // Check if user exists and password matches
         $stmt = $db->prepare('SELECT password FROM Users WHERE username = :username');

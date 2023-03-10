@@ -7,11 +7,9 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
 
 require('includes/init.php');
 
-// SQLite database file path
-$db_file = 'users.db';
-
-// Create or open database
-$db = new SQLite3($db_file);
+// Connect to database
+$dbm = new database();
+$db = $dbm->getInstance();
 
 // Create Users table
 $db->exec('CREATE TABLE IF NOT EXISTS Users (

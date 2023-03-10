@@ -32,6 +32,9 @@ function check_user_anonymous() {
     }
 }
 
+// Import DB class
+include 'database.php';
+
 // Create HTTP session
 session_name("__rctf_datadown_session");
 session_set_cookie_params(86400, '/', null, false, true); // Set secure=false due to no HTTPS
