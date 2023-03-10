@@ -8,7 +8,7 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
 require('includes/init.php');
 
 // Connect to database
-$dbm = new database();
+$dbm = new DatabaseManager();
 $db = $dbm->getInstance();
 
 // Create Users table

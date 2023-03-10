@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['password'];
 
         // Connect to database
-        $dbm = new database();
+        $dbm = new DatabaseManager();
         $db = $dbm->getInstance();
 
         // Check if username or email already exists

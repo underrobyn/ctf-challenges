@@ -1,6 +1,6 @@
 <?php
 
-class database
+class DatabaseManager
 {
 
     protected string $database_file = 'users.db';
