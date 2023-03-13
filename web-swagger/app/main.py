@@ -4,7 +4,27 @@ from .models import User, SessionLocal, UserToken
 import uuid
 
 
-app = FastAPI()
+tags_metadata = [
+    {
+        'name': 'users',
+        'description': 'Operations for administering user accounts'
+    },
+    {
+        'name': 'auth',
+        'description': 'API endpoints for tokens'
+    },
+    {
+        'name': 'flag',
+        'description': 'Requires token authorisation from a logged in user.'
+    }
+]
+
+app = FastAPI(
+    title="Administration Portal",
+    description='Administrating access to our apps API',
+    version="0.0.1-beta",
+    openapi_tags=tags_metadata
+)
 
 
 def get_db():
@@ -20,7 +40,7 @@ def read_root():
     raise HTTPException(status_code=400, detail="Invalid API endpoint, please refer to documentation")
 
 
-@app.post("/api/admin/users/create")
+@app.post("/api/admin/users/create", tags=['users'])
 def create_user(username: str, name: str, email: str, password: str, db: Session = Depends(get_db)):
     user = User(
         username=username,
@@ -33,10 +53,10 @@ def create_user(username: str, name: str, email: str, password: str, db: Session
     db.commit()
     db.refresh(user)
 
-    return user
+    return {"message": f"User: '{username}' created successfully."}
 
 
-@app.post("/api/admin/users/delete")
+@app.post("/api/admin/users/delete", tags=['users'])
 def delete_user(username: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == username).first()
 
@@ -45,17 +65,25 @@ def delete_user(username: str, db: Session = Depends(get_db)):
 
     db.delete(user)
     db.commit()
-    return {"message": f"User: '{username}' deleted successfully."}\
+    return {"message": f"User: '{username}' deleted successfully."}
 
 
-@app.get("/api/admin/users/list")
+@app.get("/api/admin/users/list", tags=['users'])
 def list_user(db: Session = Depends(get_db)):
     users = db.query(User).limit(100).all()
 
-    return {"users": users}
+    users_list = []
+    for user in users:
+        users_list.append({
+            'username': user.username,
+            'name': user.name,
+            'email': user.email
+        })
+
+    return {"users": users_list}
 
 
-@app.post("/api/auth/login")
+@app.post("/api/auth/login", tags=['auth'])
 def login_user(username: str, password: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == username).first()
     if not user:
@@ -75,12 +103,33 @@ def login_user(username: str, password: str, db: Session = Depends(get_db)):
     }
 
 
+@app.post("/api/auth/logout", tags=['auth'])
+def logout_user(token: str, db: Session = Depends(get_db)):
+    token = db.query(UserToken).filter(UserToken.token == token).first()
+    if not token:
+        return HTTPException(status_code=401, detail="Invalid token")
+
+    db.delete(token)
+    db.commit()
+
+    return {"message": "Token has been revoked"}
+
+
+
+@app.get("/api/auth/active", tags=['users'])
+def list_sessions(db: Session = Depends(get_db)):
+    return {"tokens": []}
+
+
 @app.get("/api/flag/read")
 def read_flag(token: str, db: Session = Depends(get_db)):
     token = db.query(UserToken).filter(UserToken.token == token).first()
-    token_user = db.query(User).filter(User.id == token.user_id).first()
 
     if token is None:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+    token_user = db.query(User).filter(User.id == token.user_id).first()
+    if token_user is None:
         raise HTTPException(status_code=401, detail="Invalid token")
 
     flag_string = 'flag{f1ag_f0r_t3st1ng}'
