@@ -1,6 +1,11 @@
-from models import User, SessionLocal
+from datetime import datetime, timedelta
+from models import User, UserToken, SessionLocal
 import string
 import random
+import uuid
+
+
+ADMIN_USERNAME = 'admin'
 
 
 def get_random_password(length: int = 16) -> str:
@@ -11,7 +16,11 @@ def get_random_password(length: int = 16) -> str:
 
 def create_admin_user() -> None:
     db = SessionLocal()
-    user = User(username='admin', name='Mx Admin', email='webmaster@localhost.localdomain')
+    user = User(
+        username=ADMIN_USERNAME,
+        name='Mx Admin',
+        email='webmaster@localhost.localdomain'
+    )
     password = get_random_password(24)
     print(password)
     user.set_password(password)
@@ -19,5 +28,19 @@ def create_admin_user() -> None:
     db.commit()
 
 
+def create_admin_token() -> None:
+    db = SessionLocal()
+    user = db.query(User).filter(User.username == ADMIN_USERNAME).first()
+    new_token = str(uuid.uuid4())
+    user_token = UserToken(
+        token=new_token,
+        user_id=user.id,
+        expires_at=datetime.utcnow() + timedelta(minutes=1)
+    )
+    db.add(user_token)
+    db.commit()
+
+
 if __name__ == '__main__':
     create_admin_user()
+    create_admin_token()

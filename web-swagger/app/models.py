@@ -1,5 +1,6 @@
+from datetime import datetime, timedelta
 from os import environ
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from passlib.context import CryptContext
@@ -39,6 +40,12 @@ class UserToken(Base):
     token = Column(String, unique=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="tokens")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    expires_at = Column(DateTime, default=datetime.utcnow() + timedelta(minutes=60))
+
+    @property
+    def is_expired(self):
+        return datetime.utcnow() > self.expires_at
 
 
 Base.metadata.create_all(bind=engine)

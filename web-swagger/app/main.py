@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import Session
 from .models import User, SessionLocal, UserToken
 import uuid
+import re
 
 
 tags_metadata = [
@@ -35,8 +36,14 @@ def get_db():
         db.close()
 
 
-@app.get("/")
-def read_root():
+def token_secret(token: str) -> str:
+    masked_token = token.split('-')
+    masked_token[:-1] = ['*' * len(section) for section in masked_token[:-1]]
+    return '-'.join(masked_token)
+
+
+@app.get("/", tags=['flag'])
+def api_home():
     raise HTTPException(status_code=400, detail="Invalid API endpoint, please refer to documentation")
 
 
@@ -115,13 +122,42 @@ def logout_user(token: str, db: Session = Depends(get_db)):
     return {"message": "Token has been revoked"}
 
 
+@app.post("/api/auth/logout/all", tags=['auth'])
+def logout_user_everywhere(username: str, db: Session = Depends(get_db)):
+    token_user = db.query(User).filter(User.username == username).first()
+    if token_user is None:
+        raise HTTPException(status_code=404, detail="Invalid user")
 
-@app.get("/api/auth/active", tags=['users'])
-def list_sessions(db: Session = Depends(get_db)):
-    return {"tokens": []}
+    tokens = db.query(UserToken).filter(UserToken.user_id == token_user.id).all()
+
+    for token in tokens:
+        db.delete(token)
+
+    db.commit()
+
+    return {"message": "Tokens have been revoked"}
 
 
-@app.get("/api/flag/read")
+@app.get("/api/auth/active", tags=['auth'])
+def list_sessions(username: str, db: Session = Depends(get_db)):
+    token_user = db.query(User).filter(User.username == username).first()
+    if token_user is None:
+        raise HTTPException(status_code=404, detail="Invalid user")
+
+    user_tokens = db.query(UserToken).filter(UserToken.user_id == token_user.id).all()
+    token_list = []
+    for token in user_tokens:
+        token_list.append({
+            '_id': token.id,
+            'token': token_secret(token.token),
+            'created_at': token.created_at.isoformat(),
+            'expires_at': token.expires_at.isoformat()
+        })
+
+    return {"tokens": token_list}
+
+
+@app.get("/api/flag/read", tags=['flag'])
 def read_flag(token: str, db: Session = Depends(get_db)):
     token = db.query(UserToken).filter(UserToken.token == token).first()
 
