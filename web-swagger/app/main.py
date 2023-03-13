@@ -1,5 +1,6 @@
 from typing import Union
 from fastapi import FastAPI
+from models import User, SessionLocal
 
 
 app = FastAPI()
@@ -10,6 +11,12 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.post("/users/")
+def create_user(name: str, email: str, password: str):
+    db = SessionLocal()
+    user = User(name=name, email=email)
+    user.set_password(password)
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
