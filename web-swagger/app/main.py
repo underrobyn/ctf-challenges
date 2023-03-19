@@ -2,7 +2,6 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import Session
 from .models import User, SessionLocal, UserToken
 import uuid
-import re
 
 
 tags_metadata = [
@@ -158,7 +157,7 @@ def list_sessions(username: str, db: Session = Depends(get_db)):
 
 
 @app.get("/api/flag/read", tags=['flag'])
-def read_flag(token: str, db: Session = Depends(get_db)):
+def read_flags(token: str, db: Session = Depends(get_db)):
     token = db.query(UserToken).filter(UserToken.token == token).first()
 
     if token is None:
