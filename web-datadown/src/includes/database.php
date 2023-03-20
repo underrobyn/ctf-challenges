@@ -3,7 +3,7 @@
 class DatabaseManager
 {
 
-    protected string $database_file = 'users.db';
+    protected string $database_file = 'users.sqlite3';
     protected string $database_path = '/var/www/html/';
 
     private SQLite3 $instance;
