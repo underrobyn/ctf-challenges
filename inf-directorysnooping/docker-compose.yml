@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  samba-ad-dc:
+    build: .
+    environment:
+      - DOMAIN_NAME=localhost.localdomain
+      - ADMIN_PASSWORD=password
+    ports:
+      - "53:53"
+      - "88:88"
+      - "135:135"
+      - "137:137"
+      - "138:138"
+      - "139:139"
+      - "389:389"
+      - "445:445"
+      - "464:464"
+      - "636:636"
+      - "3268:3268"
+      - "3269:3269"
