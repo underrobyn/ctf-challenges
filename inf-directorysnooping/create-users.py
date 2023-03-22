@@ -19,7 +19,7 @@ add_flag_ldif = """
 dn: CN={{USER_CN}},CN=Users,DC=localhost,DC=localdomain
 changetype: modify
 add: flagVariable
-flagVariable: flag{well_done}
+flagVariable: "flag{well_done}"
 """
 
 
@@ -28,6 +28,7 @@ def random_string(length):
 
 
 def create_user(username, password, first_name, last_name):
+    print(f'Creating user: {first_name} {last_name}, {username}, with password: {password}')
     cmd = f'sudo samba-tool user create {username} "{password}" --given-name="{first_name}" --surname="{last_name}"'
     subprocess.run(cmd, shell=True, check=True, text=True)
 
@@ -43,6 +44,12 @@ def set_flag(username):
     subprocess.run(cmd, shell=True, check=True, text=True)
 
 
+def add_user_to_group(username):
+    cmd = f'sudo samba-tool group addmembers "Flag Readers" {username}'
+    subprocess.run(cmd, shell=True, check=True, text=True)
+
+
+
 def generate_users(num_users):
     users_list = []
     for _ in range(num_users):
@@ -55,10 +62,11 @@ def generate_users(num_users):
         except Exception:
             continue
 
-        users_list.append(f'{first_name} {last_name}')
+        users_list.append([f'{first_name} {last_name}', username])
 
     flag_user = random.choice(users_list)
-    set_flag(flag_user)
+    set_flag(flag_user[0])
+    add_user_to_group(flag_user[1])
 
 
 if __name__ == "__main__":

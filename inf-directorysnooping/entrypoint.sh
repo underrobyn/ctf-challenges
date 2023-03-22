@@ -41,7 +41,7 @@ fi
 ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_var_attribute.ldif
 ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_attribute_to_user.ldif
 
-samba-tool group add flag_users --description="I think some user has the flag..."
+samba-tool group add "Flag Readers" --groupou="CN=Builtin" --description="Users who may help point you in the right direction"
 
 # Create users
 python3 /tmp/create-users.py
