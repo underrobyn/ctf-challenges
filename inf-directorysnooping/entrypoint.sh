@@ -38,7 +38,10 @@ if [ ! -f /var/lib/samba/private/secrets.tdb ]; then
 fi
 
 # Add flag attribute
-ldbmodify -H /usr/local/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_var_attribute.ldif
+ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_var_attribute.ldif
+ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_attribute_to_user.ldif
+
+samba-tool group add flag_users --description="I think some user has the flag..."
 
 # Create users
 python3 /tmp/create-users.py

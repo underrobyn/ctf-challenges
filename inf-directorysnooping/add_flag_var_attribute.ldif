@@ -1,12 +1,12 @@
-dn: CN=secret-var,CN=Schema,CN=Configuration,DC=localhost,DC=localdomain
+dn: CN=flagVariable,CN=Schema,CN=Configuration,DC=localhost,DC=localdomain
 changetype: add
 objectClass: top
 objectClass: attributeSchema
-cn: secret-var
-attributeID: 1.2.840.113556.1.8000.2554.54633.51433.18219.16256.28914.28153
+cn: flagVariable
+attributeID: 1.2.345.678999.1.8000.2554.54633.51433.18219.16256.28914.28153
 attributeSyntax: 2.5.5.12
 isSingleValued: TRUE
-adminDisplayName: secret-var
-adminDescription: Secret Variable
+adminDisplayName: flagVariable
+adminDescription: Flag
 oMSyntax: 64
-lDAPDisplayName: secret-var
+lDAPDisplayName: flagVariable
