@@ -3,9 +3,12 @@ version: '3.9'
 services:
   samba-ad-dc:
     build: .
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
     environment:
       - DOMAIN_NAME=localhost.localdomain
-      - ADMIN_PASSWORD=password
+      - ADMIN_PASSWORD=Pa55w0rd
     ports:
       - "53:53"
       - "88:88"
@@ -14,7 +17,7 @@ services:
       - "138:138"
       - "139:139"
       - "389:389"
-      - "445:445"
+      - "446:445"
       - "464:464"
       - "636:636"
       - "3268:3268"
