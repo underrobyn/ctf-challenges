@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
+from passlib.context import CryptContext
 import mimetypes
 
 
@@ -13,6 +14,7 @@ mimetypes.add_type('text/javascript', '.js')
 db = SQLAlchemy()
 csrf = CSRFProtect()
 login_manager = LoginManager()
+pwd_context = CryptContext(schemes=["argon2", "bcrypt"], deprecated="auto")
 
 
 # Define folders

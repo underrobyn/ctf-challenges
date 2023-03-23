@@ -1,5 +1,6 @@
 from datetime import datetime
 from app import db
+from . import pwd_context
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -15,20 +16,18 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     password = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(256), unique=True, nullable=False)
-    active = db.Column(db.Integer, nullable=False, default=0)
-    account_type = db.Column(db.Integer, nullable=False, default=0)
 
     @property
     def password(self):
         raise AttributeError("You cannot read the password attribute")
 
     @password.setter
-    def password(self, password):
-        # Docs: https://werkzeug.palletsprojects.com/en/1.0.x/utils/
-        self.password_hash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
+    def password(self, password: str):
+        self.password_hash = pwd_context.hash(password, scheme="argon2")
 
-    def verify_password(self, password):
-        return check_password_hash(self.password_hash, password)
+
+    def verify_password(self, password: str):
+        return pwd_context.verify_and_update(password, self.password_hash)
 
     def __unicode__(self):
         return self.name
