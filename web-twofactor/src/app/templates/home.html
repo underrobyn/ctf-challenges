@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block description %}Homepage of application{% endblock %}
+
+{% block content %}
+<div class="container-fluid text-light py-5 px-3">
+	<div class="container">
+		{% include "components/alert.html" %}
+		<h1 class="display-4">Logged in as {{current_user.name}}</h1>
+
+	</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,12 @@
+{
+	"short_name":"TwoFactor",
+	"name":"TwoFactor",
+	"description":"TwoFactor",
+	"categories":["utilities", "productivity"],
+	"start_url":"/",
+	"scope":"/",
+	"theme_color":"#1a1a1a",
+	"background_color":"#212529",
+	"display":"standalone",
+	"orientation":"portrait"
+}
