@@ -6,8 +6,6 @@ ARG UID=1000
 
 WORKDIR /code
 
-RUN apt-get update
-
 RUN useradd $UNAME -u $UID --system
 
 COPY ./requirements.txt /code/requirements.txt
