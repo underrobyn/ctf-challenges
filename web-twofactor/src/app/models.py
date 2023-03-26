@@ -16,6 +16,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     password = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(256), unique=True, nullable=False)
+    otp_secret = db.Column(db.String(16), unique=True, nullable=True)
 
     @property
     def password(self):

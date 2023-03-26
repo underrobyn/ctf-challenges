@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, Email
 
 
@@ -29,3 +29,10 @@ class LoginUserForm(FlaskForm):
         Length(min=8, max=255, message='Password does not meet length requirements')
     ])
     submit = SubmitField('Login')
+
+
+class MFAUserForm(FlaskForm):
+    code = IntegerField('MFA Code', validators=[
+        DataRequired(message='Please enter the 6-digit code from your MFA app')
+    ])
+    submit = SubmitField('Authorise')

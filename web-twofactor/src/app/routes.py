@@ -1,8 +1,10 @@
 from flask import render_template, send_from_directory, Blueprint, redirect, url_for, request, abort, flash
 from . import static_folder, login_manager, db
 from flask_login import login_required, logout_user, current_user, login_user
-from .forms import CreateUserForm, LoginUserForm
+from .forms import CreateUserForm, LoginUserForm, MFAUserForm
 from .models import User
+import pyotp
+
 
 main = Blueprint("main", __name__)
 
@@ -66,11 +68,36 @@ def auth():
                 flash('Could not log you in please try again.', 'danger')
             else:
                 login_user(user, remember=True)
-                next_url = request.args.get('next')
 
-                return redirect(next_url or url_for('main.index'))
+                return redirect(url_for('main.auth_mfa', next=request.args.get('next')))
 
     return render_template('auth.html', login_user=login_form, create_user=create_form, active_pane=active_pane)
+
+
+@main.route('/auth/mfa', methods=['GET', 'POST'])
+@login_required
+def auth_mfa():
+    mfa_form = MFAUserForm(prefix="mfa")
+    active_pane = 'mfa'
+
+    if request.method == 'POST':
+        user = User.query.filter_by(email=current_user.email)
+
+        if not user:
+            flash('Oh no', 'error')
+        else:
+            if user.otp_secret is None:
+                flash('User does not have MFA setup. Please do this otherwise your account is insecure', 'warning')
+                return redirect(url_for('main.index', next=request.args.get('next')))
+            totp = pyotp.TOTP(user.otp_secret)
+            if totp.verify(mfa_form.code.data):
+                login_user(user)
+                return redirect(url_for('main.index', next=request.args.get('next')))
+            else:
+                flash('Invalid OTP token.', 'warning')
+                return redirect(url_for('main.index', next=request.args.get('next')))
+
+    return render_template('auth_mfa.html', mfa_user=mfa_form, active_pane=active_pane)
 
 
 @main.route('/logout')

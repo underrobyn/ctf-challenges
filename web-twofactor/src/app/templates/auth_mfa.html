@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block description %}Please enter your auth code{% endblock %}
+
+{% block content %}
+<div class="container-fluid text-light py-5 px-3">
+	<div class="container">
+		<h1 class="display-4">Multi Factor</h1>
+		{% include "components/alert.html" %}
+
+		<div class="tab-content" id="content">
+			<div class="tab-pane fade{% if active_pane == 'mfa' %} show active{% endif %}" id="mfa_pane" role="tabpanel" aria-labelledby="mfa_tab">
+				{% for field, errors in mfa_user.errors.items() %}
+					<div class="alert alert-info alert-danger alert-dismissible fade show" role="alert">
+						{{ mfa_user[field].label }}: {{ ', '.join(errors) }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endfor %}
+				<form id="mfa_form" action="{{ url_for('main.auth_mfa') }}" name="mfa_form" method="POST">
+					<input type="hidden" class="d-none" name="form_name" value="mfa" />
+					{{ mfa_user.csrf_token }}
+					<div class="mb-3 ">
+						{{ mfa_user.code.label(class="form-label") }}
+						{{ mfa_user.code(class="form-control") }}
+						<small id="codeHelp" class="form-text text-light">Please enter a thing</small>
+					</div>
+					{{ mfa_user.submit(class='btn btn-primary') }}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block jsfiles %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/login.js') }}" type="text/javascript"></script>
+{% endblock jsfiles %}

@@ -9,7 +9,7 @@
 	<div class="container">
 		{% include "components/alert.html" %}
 		<h1 class="display-4">Logged in as {{current_user.name}}</h1>
-
+		<a class="btn btn-lg btn-danger" href="{{ url_for('main.logout') }}">Logout</a>
 	</div>
 </div>
 {% endblock content %}
