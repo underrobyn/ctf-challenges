@@ -1,9 +1,19 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const nunjucks = require('nunjucks');
 const app = express();
 
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+nunjucks.configure('views', { // Configure Nunjucks
+  autoescape: true,
+  express: app,
+});
+
+let users = [];
 const secretKey = 'insecure_secret_key';
 
 app.post('/login', (req, res) => {
@@ -31,6 +41,33 @@ app.get('/users', (req, res) => {
     } catch (error) {
         res.status(401).json({ error: 'Invalid token' });
     }
+});
+
+app.get('/login', (req, res) => {
+  res.render('login.html');
+});
+
+app.get('/register', (req, res) => {
+  res.render('register.html');
+});
+
+app.post('/register', (req, res) => {
+  const { username, password } = req.body;
+
+  const userExists = users.find((user) => user.username === username);
+
+  if (userExists) return res.status(400).send('User already exists.');
+
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const newUser = {
+    id: users.length + 1,
+    username,
+    password: hashedPassword,
+  };
+
+  users.push(newUser);
+
+  res.status(201).send('User created.');
 });
 
 app.listen(3000, () => {
