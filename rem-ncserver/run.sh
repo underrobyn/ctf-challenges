@@ -2,7 +2,7 @@
 
 docker build -t rctf_rem_ncserver .
 
-#docker rm rctf_ncserver_app
+docker container rm rctf_ncserver_app
 
 docker run \
     -p 5555:5555 \

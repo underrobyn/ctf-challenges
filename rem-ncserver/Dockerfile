@@ -13,11 +13,11 @@ RUN groupadd -g $GID filelock && \
     echo "alias ll='ls -Fail'" >> .bashrc && \
     echo "usr ALL=(ALL) NOPASSWD: /usr/bin/sudo -l" >> /etc/sudoers
 
-WORKDIR /opt/myapp
-
-COPY server.sh /tmp/server.sh
+WORKDIR /home/$UNAME
 
 USER $UNAME
+
+COPY server.sh /tmp/server.sh
 
 EXPOSE 5555
 
