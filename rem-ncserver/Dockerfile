@@ -21,4 +21,4 @@ COPY server.sh /tmp/server.sh
 
 EXPOSE 5555
 
-CMD ["/tmp/server.sh"]
+CMD ["bash", "-c", "/tmp/server.sh"]
