@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:jammy-20230308
 
 # Install required packages
 RUN apt-get update && \

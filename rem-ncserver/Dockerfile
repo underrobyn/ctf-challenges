@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM ubuntu:jammy-20230308
 
 ARG UNAME=user
 ARG UID=1000
