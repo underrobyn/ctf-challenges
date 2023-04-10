@@ -22,7 +22,7 @@ WORKDIR /var/www/html
 RUN php create-database.php
 
 # Update file permissions
-RUN chmod 655 /var/www/html/users.db
+RUN chmod 655 /var/www/html/users.sqlite3
 
 # Switch to local user
 USER www-data
