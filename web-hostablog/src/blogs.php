@@ -6,7 +6,11 @@ const DISALLOWED_FILES = array(
 );
 
 function get_preview($file): string {
-    $file_contents = file_get_contents($file);
+    $file_contents = @file_get_contents($file);
+    if ($file_contents === false) {
+        return "Error trying to preview file: {$file}";
+    }
+
     $lines = explode("\n", $file_contents);
     $preview = '';
 
@@ -35,6 +39,9 @@ function generate_blog_previews($folder_path): void {
 
             // Ignore specific blog files
             if (in_array($file, DISALLOWED_FILES)) continue;
+
+            // That is a folder...
+            if (is_dir($folder_path . '/' . $file)) continue;
 
             // File as preview
             $preview = get_preview($folder_path . '/' . $file);

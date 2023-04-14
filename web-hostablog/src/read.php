@@ -12,7 +12,10 @@ if (!file_exists($path)) {
 	die();
 }
 
-$fc = file_get_contents($path);
+$fc = @file_get_contents($path);
+if ($fc === false) {
+	$fc = "Very sorry but {$path} cannot be read for some reason. Maybe it was NASA...";
+}
 
 // Replace hyphens with spaces in the file name
 $file_name = str_replace('-', ' ', $path);
@@ -35,8 +38,6 @@ $file_name = str_replace('.md', '', $file_name);
 
 		<?php include('includes/footer.php'); ?>
 		<script defer>
-			console.log("No clues here, hehe, maybe look at the pages")
-
 			document.getElementById('content').innerHTML =
 				marked.parse(`<?php echo $fc; ?>`);
 		</script>
