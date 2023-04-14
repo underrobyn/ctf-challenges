@@ -38,8 +38,7 @@ $file_name = str_replace('.md', '', $file_name);
 
 		<?php include('includes/footer.php'); ?>
 		<script defer>
-			document.getElementById('content').innerHTML =
-				marked.parse(`<?php echo $fc; ?>`);
+			document.getElementById('content').innerHTML = marked.parse(`<?php echo $fc; ?>`);
 		</script>
 	</body>
 </html>

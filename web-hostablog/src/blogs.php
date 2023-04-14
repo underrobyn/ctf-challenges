@@ -6,6 +6,10 @@ const DISALLOWED_FILES = array(
 );
 
 function get_preview($file): string {
+    if (!str_ends_with($file, '.md')) {
+        return 'Content cannot be previewed';
+    }
+
     $file_contents = @file_get_contents($file);
     if ($file_contents === false) {
         return "Error trying to preview file: {$file}";
@@ -56,7 +60,7 @@ function generate_blog_previews($folder_path): void {
             // Generate the HTML output for this file
             echo '<div class="bg-white rounded shadow p-4">';
             echo '<h2 class="text-xl font-bold mb-2">' . $file_name . '</h2>';
-            echo '<p class="text-gray-700">' . $preview . '</p>';
+            echo '<p class="text-gray-700 preview">' . $preview . '</p>';
             echo '<a href="' . $link . '" class="block mt-4 text-blue-500 hover:text-blue-600">Read more</a>';
             echo '</div>';
         }
