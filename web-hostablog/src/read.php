@@ -30,7 +30,7 @@ $file_name = str_replace('.md', '', $file_name);
 
 		<main class="container mx-auto px-4 py-8">
 			<h1 class="text-2xl font-bold mb-4"><?php echo $file_name; ?></h1>
-			<pre id="content">Loading...</pre>
+			<article id="content">Loading...</article>
 		</main>
 
 		<?php include('includes/footer.php'); ?>

@@ -1,6 +1,14 @@
+#content {
+    white-space: pre;
+}
+
 #content a {
     text-decoration: underline !important;
     color: #0000ff;
+}
+
+#content img {
+    max-height: 40vh;
 }
 
 #content {
