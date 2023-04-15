@@ -1,4 +1,4 @@
-FROM php:8.2.4-cli-alpine
+FROM php:8.2.4-cli-alpine3.17
 
 RUN apk update && apk add --no-cache bash git rlwrap readline-dev nmap-ncat
 
@@ -9,7 +9,11 @@ RUN install-php-extensions pcntl pdo_sqlite posix readline sodium
 COPY server.sh /tmp/server.sh
 
 # Copy settings to make environment more secure
-COPY extra.ini /usr/local/etc/php/conf.d/extra.ini
+COPY conf.d/secure-env.ini /usr/local/etc/php/conf.d/secure-env.ini
+
+# Copy flag to a random file name :)
+COPY flag.txt /flag.txt
+RUN mv /flag.txt /flag_$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1).txt
 
 WORKDIR /app
 
