@@ -30,6 +30,14 @@ function messageTimeAgo() {
     });
 }
 
+function countEmails() {
+    let ic = document.getElementById('inbox_count');
+    let emails = document.querySelectorAll('#email_list a');
+    ic.innerText = emails.length;
+    document.title = `InLook | Inbox (${emails.length})`;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     messageTimeAgo();
+    countEmails();
 });

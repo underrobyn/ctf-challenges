@@ -16,6 +16,11 @@
               integrity="sha512-yU7+yXTc4VUanLSjkZq+buQN3afNA4j2ap/mxvdr440P5aW9np9vIr2JMZ2E5DuYeC9bAoH9CuCR7SJlXAa4pg=="
               crossorigin="anonymous"
               referrerpolicy="no-referrer"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+              integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -26,7 +31,7 @@
 
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
     </head>
-    <body data-emailid="{{ challenge_id }}">
+    <body data-emailid="{{ email_id }}">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-bs-theme="dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
@@ -45,7 +50,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">
-                                Inbox <span class="badge rounded-pill text-bg-danger">99+</span>
+                                Inbox <span class="badge rounded-pill text-bg-danger" id="inbox_count">?</span>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
@@ -81,102 +86,115 @@
             </div>
         </nav>
 
-        <div class="container pt-3">
+        <div class="container-fluid container-xl pt-3">
             <h1>Inbox</h1>
             <div class="row g-2">
                 <div class="col-md-3 scroll-box">
-                    <div class="list-group">
+                    <div class="list-group" id="email_list">
                         <a href="#" class="list-group-item bg-primary text-white list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Sender 1</h5>
-                                <small id="last_email_time">1 min ago</small>
+                                <h5 class="mb-0">Jeffrey Jones</h5>
+                                <small data-message-time="{{ 1|custom_date_format }}" id="last_email_time">1 min ago</small>
                             </div>
-                            <p class="mb-1">Email subject 1</p>
-                            <small>Snippet of the email content...</small>
+                            <p class="mb-0" id="latest_email_title">Quick Question</p>
+                            <small id="latest_email_text">...</small>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Sender 1</h5>
+                                <h5 class="mb-0">Anna H</h5>
                                 <small data-message-time="{{ 3|custom_date_format }}">loading...</small>
                             </div>
-                            <p class="mb-1">Email subject 1</p>
-                            <small>Snippet of the email content...</small>
+                            <p class="mb-0">WhatsMyIP Service</p>
+                            <small>I think I found a vulnerability...</small>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Sender 2</h5>
+                                <h5 class="mb-0">Sarah Johnson</h5>
                                 <small data-message-time="{{ 6|custom_date_format }}">loading...</small>
                             </div>
-                            <p class="mb-1">Email subject 1</p>
-                            <small>Snippet of the email content...</small>
+                            <p class="mb-0">Meeting Request</p>
+                            <small>Sarah, follow-up on our meeting...</small>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Sender 1</h5>
+                                <h5 class="mb-0">Michael Lee</h5>
                                 <small data-message-time="{{ 7|custom_date_format }}">loading...</small>
                             </div>
-                            <p class="mb-1">Email subject 1</p>
-                            <small>Snippet of the email content...</small>
+                            <p class="mb-0">Project Proposal</p>
+                            <small>Stop ignoring my emails! I need...</small>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Sender 2</h5>
+                                <h5 class="mb-0">Emily Davis</h5>
                                 <small data-message-time="{{ 21|custom_date_format }}">loading...</small>
                             </div>
-                            <p class="mb-1">Email subject 1</p>
-                            <small>Snippet of the email content...</small>
+                            <p class="mb-0">Sushi Date</p>
+                            <small>Emily, reminder about our lunch...</small>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Sender 1</h5>
+                                <h5 class="mb-0">Robert Patel</h5>
                                 <small data-message-time="{{ 23|custom_date_format }}">loading...</small>
                             </div>
-                            <p class="mb-1">Email subject 1</p>
-                            <small>Snippet of the email content...</small>
+                            <p class="mb-0">Stakeholders are waiting</p>
+                            <small>Robert, updates on the client...</small>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Sender 2</h5>
+                                <h5 class="mb-0">Kelly Nguyen</h5>
                                 <small data-message-time="{{ 61|custom_date_format }}">loading...</small>
                             </div>
-                            <p class="mb-1">Email subject 1</p>
-                            <small>Snippet of the email content...</small>
+                            <p class="mb-0">About your blog</p>
+                            <small>NASA here, we will find you...</small>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Sender 1</h5>
+                                <h5 class="mb-0">Olivia Smith</h5>
                                 <small data-message-time="{{ 117|custom_date_format }}">loading...</small>
                             </div>
-                            <p class="mb-1">Email subject 1</p>
-                            <small>Snippet of the email content...</small>
+                            <p class="mb-0">Its over</p>
+                            <small>Don't ever talk to me again...</small>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Sender 2</h5>
+                                <h5 class="mb-0">David Wheatley</h5>
                                 <small data-message-time="{{ 119|custom_date_format }}">loading...</small>
                             </div>
-                            <p class="mb-1">Email subject 1</p>
-                            <small>Snippet of the email content...</small>
+                            <p class="mb-0">Project Assistance</p>
+                            <small>David, thank you for your help on the...</small>
                         </a>
                     </div>
                 </div>
                 <div class="col-md-9 scroll-box">
                     <div class="card mb-3">
                         <div class="card-header">
-                            <h5 class="card-title">Compose a Reply: </h5>
-                            <small>To: Sender Name &lt;{{name}}&gt;</small>
+                            <h5 class="card-title mb-0">Compose a Reply: </h5>
+                            <small>To: Jeffrey Jones &lt;{{name}}&gt;</small>
                         </div>
-                        <div class="card-body">
-                            <p class="card-text">Email content goes here...</p>
+                        <div class="card-body p-1">
+                            <div class="d-grid gap-1">
+                                <form>
+                                    <label for="user_email" class="form-label visually-hidden">Your message:</label>
+                                    <textarea class="form-control mb-2" id="user_email" rows="2"></textarea>
+                                    <div class="mx-2">
+                                        <button class="btn btn-outline-warning" type="reset">Clear <i class="bi bi-trash"></i></button>
+                                        <button class="btn btn-outline-info" id="send_email" type="button">Send <i class="bi bi-send"></i></button>
+                                        <br />
+                                        <small id="challenge-limit">Loading...</small>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Email Subject</h5>
-                            <small>From: Sender Name &lt;sender@example.com&gt;</small>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Email content goes here...</p>
+                    <div id="conversation_history">
+                         <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Email Subject</h5>
+                                <small>From: &lt;{{name}}&gt;</small>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">{{ default_msg }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>

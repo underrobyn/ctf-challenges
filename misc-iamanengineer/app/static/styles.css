@@ -14,3 +14,15 @@ h1, .card-title {
     max-height: 80vh;
     overflow-y: scroll;
 }
+
+.assistant-message {
+    border: solid var(--bs-blue);
+}
+
+.user-message {
+    border: solid var(--bs-green);
+}
+
+.ssytem-message {
+    border: solid var(--bs-red);
+}

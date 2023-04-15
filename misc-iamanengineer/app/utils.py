@@ -92,11 +92,12 @@ def update_conversation(email_id, user_message, session) -> dict:
         return {
             "error": False,
             "response": history_tmp,
+            "message_limit": CONVERSATION_MESSAGE_LIMIT,
             "tokens": current_conversation_weight,
             "token_limit": TOKEN_USAGE_LIMIT
         }
 
-    if len(conversation_history) > CONVERSATION_MESSAGE_LIMIT:
+    if len(conversation_history) > CONVERSATION_MESSAGE_LIMIT + 1:
         history_tmp = clean_history(conversation_history)
         history_tmp.append({
             'role': 'system',
@@ -105,6 +106,7 @@ def update_conversation(email_id, user_message, session) -> dict:
         return {
             "error": False,
             "response": history_tmp,
+            "message_limit": CONVERSATION_MESSAGE_LIMIT,
             "tokens": current_conversation_weight,
             "token_limit": TOKEN_USAGE_LIMIT
         }
@@ -114,6 +116,7 @@ def update_conversation(email_id, user_message, session) -> dict:
             model=MODEL,
             messages=conversation_history,
         )
+        pass
     except openai.error.RateLimitError:
         return out_error("API experienced a rate limit error, please try again shortly")
     except Exception as err:
@@ -132,6 +135,7 @@ def update_conversation(email_id, user_message, session) -> dict:
         "time": openai_result['created'],
         "error": False,
         "response": clean_history(conversation_history),
+        "message_limit": CONVERSATION_MESSAGE_LIMIT,
         "tokens": calculate_weight(conversation_history),
         "openai_tokens": openai_result['usage'],
         "token_limit": TOKEN_USAGE_LIMIT

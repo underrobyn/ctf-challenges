@@ -5,7 +5,7 @@ from flask import Flask, abort, session, request, jsonify, render_template
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from os import environ
-from utils import update_conversation, clean_history, calculate_weight, TOKEN_USAGE_LIMIT, INITIAL_MESSAGE, EMAIL_LIST, out_error
+from utils import update_conversation, clean_history, calculate_weight, TOKEN_USAGE_LIMIT, CONVERSATION_MESSAGE_LIMIT, INITIAL_MESSAGE, EMAIL_LIST, out_error
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
@@ -108,6 +108,7 @@ def api_history():
     return jsonify({
         'error': False,
         'response': safe_history,
+        "message_limit": CONVERSATION_MESSAGE_LIMIT,
         'tokens': token_use_count,
         'token_limit': TOKEN_USAGE_LIMIT
     })
@@ -121,6 +122,7 @@ def email_client(email_id: str):
     return render_template('email.html',
                            email_id=email_id,
                            name=EMAIL_LIST[email_id],
+                           default_msg=INITIAL_MESSAGE[email_id],
                            token_max=TOKEN_USAGE_LIMIT)
 
 

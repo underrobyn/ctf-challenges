@@ -2,8 +2,8 @@ const EMAIL_ID = document.body.getAttribute('data-emailid');
 let waiting = false;
 
 function setupEventListeners() {
-    const userInput = document.getElementById("user-input");
-    const userSubmit = document.getElementById("send-chat");
+    const userInput = document.getElementById("user_email");
+    const userSubmit = document.getElementById("send_email");
 
     userInput.addEventListener("keydown", (event) => {
         if (event.key !== "Enter") return;
@@ -21,8 +21,10 @@ function setupEventListeners() {
 }
 
 function updateMessageBox(data) {
-    const chatBox = document.getElementById("chat-box");
-    const tokenText = document.getElementById("token-use");
+    const chatBox = document.getElementById("conversation_history");
+    const tokenText = document.getElementById("challenge-limit");
+    const lastEmailTitle = document.getElementById("latest_email_title");
+    const lastEmailText = document.getElementById("latest_email_text");
 
     chatBox.innerHTML = '';
 
@@ -32,20 +34,48 @@ function updateMessageBox(data) {
         'assistant': 'assistant-message'
     };
 
+    let sender_map = {
+        'system': 'Clam-Corp Mail Server &lt;postmaster@clam-corp.com&gt;',
+        'user': 'You &lt;james@rctf-technical.wales&gt;',
+        'assistant': 'Jeffrey Jones &lt;jeffrey.jones@clam-corp.com&gt;'
+    };
+
     if (data.error) {
         const serverResponseEl = document.createElement("div");
         serverResponseEl.classList.add("message", "system-message");
         serverResponseEl.innerText = data.response;
         chatBox.appendChild(serverResponseEl);
     } else {
+        let i = 0;
+        let lastContent = '...';
         for (let message in data.response) {
             let chatEl = document.createElement("div");
-            chatEl.classList.add("message", message_map[data.response[message]['role']]);
-            chatEl.innerText = data.response[message]['content'];
-            chatBox.appendChild(chatEl);
+            let from = sender_map[data.response[message]['role']]
+            if (data.response[message]['content'] === 'Send an email to Jeffrey begin.') {
+                from = sender_map['system'];
+            }
+
+            if (data.response.length > 1 && data.response[message]['content'] === 'Send an email to Jeffrey begin.') {
+                continue;
+            }
+
+            chatEl.classList.add("card", "mb-2", message_map[data.response[message]['role']]);
+            chatEl.innerHTML = `
+                <div class="card-header">
+                    <h5 class="card-title mb-0">${'Re: '.repeat(i)}Quick Question</h5>
+                    <small>From: ${from}</small>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">${data.response[message]['content']}</p>
+                </div>`
+            lastContent = data.response[message]['content'];
+            chatBox.prepend(chatEl);
+            i++;
         }
 
-        tokenText.innerText = `Token usage for this chat: ${data.tokens}/${data.token_limit}`
+        lastEmailTitle.innerText = `${'Re: '.repeat(i)}Quick Question`;
+        lastEmailText.innerText = `${lastContent.substring(0, 16)}...`;
+        tokenText.innerText = `Message count for this chat: ${data.response.length}/${data.message_limit}`
     }
 
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -71,16 +101,23 @@ function conversationResume() {
 function sendMessage(message) {
     waiting = true;
 
-    const chatBox = document.getElementById("chat-box");
-    const userInput = document.getElementById("user-input");
-    const userSubmit = document.getElementById("send-chat");
+    const chatBox = document.getElementById("conversation_history");
+    const userInput = document.getElementById("user_email");
+    const userSubmit = document.getElementById("send_email");
     const userMessageElement = document.createElement("div");
 
     userInput.disabled = true;
     userSubmit.disabled = true;
-    userMessageElement.classList.add("message", "user-message-loading");
-    userMessageElement.innerText = message;
-    chatBox.appendChild(userMessageElement);
+
+    userMessageElement.classList.add("card", "mb-2", "border-info");
+    userMessageElement.innerHTML = `
+        <div class="card-header">
+            <h5 class="card-title mb-0">Sending...</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text">${message}</p>
+        </div>`
+    chatBox.prepend(userMessageElement);
 
     fetch("/api/response", {
         method: "POST",
@@ -104,6 +141,6 @@ function sendMessage(message) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    //setupEventListeners();
-    // conversationResume();
+    setupEventListeners();
+    conversationResume();
 });
