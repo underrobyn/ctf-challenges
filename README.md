@@ -10,6 +10,20 @@ Docker priv-esc
 
 File permission
 
+### Rem-REPL
+
+Read-Eval-Print Loop... The lesser known parody of the hit song by Calvin Harris: 'Eat-Sleep-Rave Repeat'
+
+Many PHP functions are disabled in order to make this more challenging.
+
+A good approach would be:
+- `print_r(scandir('/'));` or `print_r(readdir(opendir('/')));` to find folders that are of interest
+- `print_r(fread(fopen('/etc/passwd', 'r')));` to read files of interest
+
+Remove restrictions:
+- `unlink('/usr/local/etc/php/conf.d/extra.ini');` to remove the restrictive settings file
+- Re-establish connection to use all PHP functions
+
 ## Web Challenges
 
 ### Web-DataDown
