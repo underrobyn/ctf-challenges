@@ -1,105 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-		<title>CTF-GPT</title>
+        <title>InLook | Inbox (99+)</title>
 
-		<link rel="stylesheet"
-			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
-			  integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
-			  crossorigin="anonymous"
-			  referrerpolicy="no-referrer" />
-
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100;0,300;1,100;1,300&display=swap"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha3/css/bootstrap.min.css"
+              integrity="sha512-iGjGmwIm1UHNaSuwiNFfB3+HpzT/YLJMiYPKzlQEVpT6FWi5rfpbyrBuTPseScOCWBkRtsrRIbrTzJpQ02IaLA=="
               crossorigin="anonymous"
-			  referrerpolicy="no-referrer" />
+              referrerpolicy="no-referrer"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.4/font/bootstrap-icons.min.css"
+              integrity="sha512-yU7+yXTc4VUanLSjkZq+buQN3afNA4j2ap/mxvdr440P5aW9np9vIr2JMZ2E5DuYeC9bAoH9CuCR7SJlXAa4pg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"/>
 
-		<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
-	</head>
-	<body data-emailid="{{ challenge_id }}">
-		<nav class="navbar navbar-expand-lg bg-body-tertiary">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="#">Navbar</a>
-				<button class="navbar-toggler"
-						type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#navbarNavAltMarkup"
-						aria-controls="navbarNavAltMarkup"
-						aria-expanded="false"
-						aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-					<div class="navbar-nav">
-						<a class="nav-link active" aria-current="page" href="#">
-							Inbox
-							<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-								99+<span class="visually-hidden">unread messages</span>
-						  	</span>
-						</a>
-						<a class="nav-link" href="#">
-							Trash
-						</a>
-						<a class="nav-link" href="#">
-							Pricing
-						</a>
-						<a class="nav-link disabled">
-							Logout
-						</a>
-					</div>
-				</div>
-			</div>
-		</nav>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"/>
 
-		<div class="container">
-			<h1 class="my-4">Email Client</h1>
-			<div class="row">
-				<div class="col-md-4">
-					<h2>Inbox</h2>
-					<div class="list-group">
-						<a href="#" class="list-group-item list-group-item-action">
-							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">Sender 1</h5>
-								<small>3 mins ago</small>
-							</div>
-							<p class="mb-1">Email subject 1</p>
-							<small>Snippet of the email content...</small>
-						</a>
-						<!-- Add more emails here -->
-					</div>
-				</div>
-				<div class="col-md-8">
-					<h2>Email Content</h2>
-					<div class="card">
-						<div class="card-header">
-							<h5 class="card-title">Email Subject</h5>
-							<small>From: Sender Name &lt;sender@example.com&gt;</small>
-						</div>
-						<div class="card-body">
-							<p class="card-text">Email content goes here...</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    </head>
+    <body data-emailid="{{ challenge_id }}">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-envelope"></i> InLook Web
+                </a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">
+                                Inbox <span class="badge rounded-pill text-bg-danger">99+</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Other Folders
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text"></i> Drafts</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-send"></i> Sent</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-fire"></i> Junk</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-archive"></i> Archive</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> Trash <span class="badge rounded-pill text-bg-light">15</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Account <i class="bi bi-person"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Logout <i class="bi bi-box-arrow-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <div>
+                        <form class="input-group" role="search">
+                            <input class="form-control" type="search" placeholder="Find an email..." aria-label="Search"/>
+                            <button class="btn btn-outline-secondary" type="button" id="search_action">Search <i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
+        <div class="container pt-3">
+            <h1>Inbox</h1>
+            <div class="row g-2">
+                <div class="col-md-3 scroll-box">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item bg-primary text-white list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Sender 1</h5>
+                                <small id="last_email_time">1 min ago</small>
+                            </div>
+                            <p class="mb-1">Email subject 1</p>
+                            <small>Snippet of the email content...</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Sender 1</h5>
+                                <small data-message-time="{{ 3|custom_date_format }}">loading...</small>
+                            </div>
+                            <p class="mb-1">Email subject 1</p>
+                            <small>Snippet of the email content...</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Sender 2</h5>
+                                <small data-message-time="{{ 6|custom_date_format }}">loading...</small>
+                            </div>
+                            <p class="mb-1">Email subject 1</p>
+                            <small>Snippet of the email content...</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Sender 1</h5>
+                                <small data-message-time="{{ 7|custom_date_format }}">loading...</small>
+                            </div>
+                            <p class="mb-1">Email subject 1</p>
+                            <small>Snippet of the email content...</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Sender 2</h5>
+                                <small data-message-time="{{ 21|custom_date_format }}">loading...</small>
+                            </div>
+                            <p class="mb-1">Email subject 1</p>
+                            <small>Snippet of the email content...</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Sender 1</h5>
+                                <small data-message-time="{{ 23|custom_date_format }}">loading...</small>
+                            </div>
+                            <p class="mb-1">Email subject 1</p>
+                            <small>Snippet of the email content...</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Sender 2</h5>
+                                <small data-message-time="{{ 61|custom_date_format }}">loading...</small>
+                            </div>
+                            <p class="mb-1">Email subject 1</p>
+                            <small>Snippet of the email content...</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Sender 1</h5>
+                                <small data-message-time="{{ 117|custom_date_format }}">loading...</small>
+                            </div>
+                            <p class="mb-1">Email subject 1</p>
+                            <small>Snippet of the email content...</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Sender 2</h5>
+                                <small data-message-time="{{ 119|custom_date_format }}">loading...</small>
+                            </div>
+                            <p class="mb-1">Email subject 1</p>
+                            <small>Snippet of the email content...</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-9 scroll-box">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="card-title">Compose a Reply: </h5>
+                            <small>To: Sender Name &lt;{{name}}&gt;</small>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Email content goes here...</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Email Subject</h5>
+                            <small>From: Sender Name &lt;sender@example.com&gt;</small>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Email content goes here...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<!-- Bootstrap JS -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
-				integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
-				crossorigin="anonymous"
-				referrerpolicy="no-referrer"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
+                integrity="sha512-i9cEfJwUwViEPFKdC1enz4ZRGBj8YQo6QByFTF92YXHi7waCqyexvRD75S5NVTsSiTv7rKWqG9Y5eFxmRsOn0A=="
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"
                 integrity="sha512-zAs8dHhwlTbfcVGRX1x0EZAH/L99NjAFzX6muwOcOJc7dbGFNaW4O7b9QOyCMRYBNjO+E0Kx6yLDsiPQhhWm7g=="
                 crossorigin="anonymous"
                 referrerpolicy="no-referrer"></script>
 
-		<script src="{{ url_for('static', filename='email.js') }}"></script>
-	</body>
+        <script src="{{ url_for('static', filename='email.js') }}"></script>
+        <script src="{{ url_for('static', filename='ui.js') }}"></script>
+    </body>
 </html>

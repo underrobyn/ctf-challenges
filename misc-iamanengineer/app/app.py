@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from flask import Flask, abort, session, request, jsonify, render_template
 from flask_limiter import Limiter
@@ -17,6 +18,15 @@ limiter = Limiter(
     default_limits=["50 per minute", "500 per hour"],
     storage_uri="memory://",
 )
+
+
+@app.template_filter('custom_date_format')
+def custom_date_format(offset_in_mins: int):
+    current_time = datetime.now()
+    offset = timedelta(minutes=int(offset_in_mins))
+    new_time = current_time - offset
+    formatted_time = new_time.strftime("%Y-%m-%d %H:%M:%S")
+    return formatted_time
 
 
 @app.errorhandler(429)

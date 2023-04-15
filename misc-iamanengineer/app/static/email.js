@@ -104,7 +104,6 @@ function sendMessage(message) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    createSuggestedMessages();
-    setupEventListeners();
-    conversationResume();
+    //setupEventListeners();
+    // conversationResume();
 });
