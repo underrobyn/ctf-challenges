@@ -1,14 +1,14 @@
-FROM python:3.11.3-slim-bullseye
+FROM ubuntu:jammy-20230308
 
 ARG UNAME=user
 ARG UID=1000
-ARG GID=1001
+ARG GID=1000
 
 RUN apt-get update && \
     apt-get -qy full-upgrade && \
     apt-get install sudo
 
-RUN groupadd -g $GID filelock && \
+RUN groupadd -g $GID fred && \
     useradd $UNAME -u $UID -g $GID --create-home -s /bin/bash && \
     echo "alias ll='ls -Fail'" >> .bashrc && \
     echo "usr ALL=(ALL) NOPASSWD: /usr/bin/sudo -l" >> /etc/sudoers && \
@@ -16,8 +16,8 @@ RUN groupadd -g $GID filelock && \
 
 WORKDIR /opt/myapp
 
-COPY flag.txt /opt/myapp/flag.txt
-COPY reader.py /opt/myapp/reader.py
+COPY flag.txt /root/flag.txt
+
 
 RUN chmod 600 /opt/myapp/flag.txt && chmod 644 /opt/myapp/reader.py
 

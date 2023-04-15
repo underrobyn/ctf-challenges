@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>CTF-GPT</title>
+
+		<link rel="stylesheet"
+			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+			  integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+			  crossorigin="anonymous"
+			  referrerpolicy="no-referrer" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100;0,300;1,100;1,300&display=swap"
+              crossorigin="anonymous"
+			  referrerpolicy="no-referrer" />
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+	</head>
+	<body data-emailid="{{ challenge_id }}">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">Navbar</a>
+				<button class="navbar-toggler"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarNavAltMarkup"
+						aria-controls="navbarNavAltMarkup"
+						aria-expanded="false"
+						aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div class="navbar-nav">
+						<a class="nav-link active" aria-current="page" href="#">
+							Inbox
+							<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+								99+<span class="visually-hidden">unread messages</span>
+						  	</span>
+						</a>
+						<a class="nav-link" href="#">
+							Trash
+						</a>
+						<a class="nav-link" href="#">
+							Pricing
+						</a>
+						<a class="nav-link disabled">
+							Logout
+						</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<h1 class="my-4">Email Client</h1>
+			<div class="row">
+				<div class="col-md-4">
+					<h2>Inbox</h2>
+					<div class="list-group">
+						<a href="#" class="list-group-item list-group-item-action">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-1">Sender 1</h5>
+								<small>3 mins ago</small>
+							</div>
+							<p class="mb-1">Email subject 1</p>
+							<small>Snippet of the email content...</small>
+						</a>
+						<!-- Add more emails here -->
+					</div>
+				</div>
+				<div class="col-md-8">
+					<h2>Email Content</h2>
+					<div class="card">
+						<div class="card-header">
+							<h5 class="card-title">Email Subject</h5>
+							<small>From: Sender Name &lt;sender@example.com&gt;</small>
+						</div>
+						<div class="card-body">
+							<p class="card-text">Email content goes here...</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Bootstrap JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+				integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+				crossorigin="anonymous"
+				referrerpolicy="no-referrer"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"
+                integrity="sha512-zAs8dHhwlTbfcVGRX1x0EZAH/L99NjAFzX6muwOcOJc7dbGFNaW4O7b9QOyCMRYBNjO+E0Kx6yLDsiPQhhWm7g=="
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"></script>
+
+		<script src="{{ url_for('static', filename='email.js') }}"></script>
+	</body>
+</html>
