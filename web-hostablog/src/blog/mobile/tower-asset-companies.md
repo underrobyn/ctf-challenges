@@ -31,7 +31,7 @@ impact due to fewer towers being constructed (3).
 Independent tower companies can leverage their expertise and scale to build and manage tower infrastructure more
 efficiently, enabling faster network expansion and improving coverage for mobile operators (4).
 
-**Disadvantages of Tower Asset Management Companies**
+### **Disadvantages of Tower Asset Management Companies**
 
 **1. Loss of Control**
 

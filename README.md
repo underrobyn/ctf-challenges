@@ -21,7 +21,7 @@ A good approach would be:
 - `print_r(fread(fopen('/etc/passwd', 'r')));` to read files of interest
 
 Remove restrictions:
-- `unlink('/usr/local/etc/php/conf.d/extra.ini');` to remove the restrictive settings file
+- `unlink('/usr/local/etc/php/conf.d/secure-env.ini');` to remove the restrictive settings file
 - Re-establish connection to use all PHP functions
 
 ## Web Challenges

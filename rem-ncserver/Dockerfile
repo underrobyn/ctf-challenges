@@ -13,6 +13,9 @@ RUN groupadd -g $GID filelock && \
     echo "alias ll='ls -Fail'" >> .bashrc && \
     echo "usr ALL=(ALL) NOPASSWD: /usr/bin/sudo -l" >> /etc/sudoers
 
+COPY flag.txt /flag.txt
+RUN mv /flag.txt /flag_$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1).txt
+
 WORKDIR /home/$UNAME
 
 USER $UNAME

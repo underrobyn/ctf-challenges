@@ -1,7 +1,7 @@
 
 
 def decode(hidden: str) -> str:
-    # Oh no... There is no code here...
+    # Oh no... There is no code here... Because you can't just reverse a... Oh I have said too much
     return hidden
 
 
