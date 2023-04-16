@@ -12,8 +12,13 @@ COPY server.sh /tmp/server.sh
 COPY conf.d/secure-env.ini /usr/local/etc/php/conf.d/secure-env.ini
 
 # Copy flag to a random file name :)
-COPY flag.txt /flag.txt
+COPY flag1.txt /flag.txt
 RUN mv /flag.txt /flag_$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1).txt
+
+COPY flag2.txt /tmp/flag2.txt
+RUN echo "export FLAG2=$(cat /tmp/flag2.txt)" >> /etc/apache2/envvars
+RUN echo "export FLAG2=$(cat /tmp/flag2.txt)" >> /root/.bashrc
+RUN rm -f /tmp/flag2.txt
 
 WORKDIR /app
 
