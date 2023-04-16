@@ -12,3 +12,10 @@ file_editor.editor:
     _title: 'File Editor'
   requirements:
     _permission: 'access file editor'
+file_editor.upload:
+  path: '/admin/file-editor/upload'
+  defaults:
+    _form: '\Drupal\file_editor\Form\FileUploadForm'
+    _title: 'Upload File'
+  requirements:
+    _permission: 'access file editor'
