@@ -1,0 +1,3 @@
+access sql executor:
+  title: 'Access SQL Executor'
+  description: 'Allow the user to access the SQL Executor form.'

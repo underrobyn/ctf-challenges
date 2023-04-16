@@ -1,0 +1,14 @@
+file_editor.save:
+  path: '/admin/file-editor/save'
+  defaults:
+    _controller: '\Drupal\file_editor\Controller\FileEditorController::save'
+  requirements:
+    _permission: 'access file editor'
+  methods: [POST]
+file_editor.editor:
+  path: '/admin/file-editor'
+  defaults:
+    _controller: '\Drupal\file_editor\Controller\FileEditorController::index'
+    _title: 'File Editor'
+  requirements:
+    _permission: 'access file editor'

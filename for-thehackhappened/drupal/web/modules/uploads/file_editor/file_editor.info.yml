@@ -1,0 +1,5 @@
+name: File Editor
+type: module
+description: 'Allows browsing and editing server files for debugging purposes.'
+core_version_requirement: ^8.7 || ^9 || ^10
+package: Custom

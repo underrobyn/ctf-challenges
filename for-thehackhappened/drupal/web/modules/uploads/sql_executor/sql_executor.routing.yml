@@ -1,0 +1,7 @@
+sql_executor.execute_form:
+  path: '/admin/sql-executor'
+  defaults:
+    _form: '\Drupal\sql_executor\Form\SQLExecutorForm'
+    _title: 'SQL Executor'
+  # requirements:
+    # _permission: 'access sql executor'
