@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $db = $dbm->getInstance();
 
         // Check if user exists and password matches
-        $stmt = $db->prepare('SELECT password FROM Users WHERE username = :username');
+        $stmt = $db->prepare('SELECT first_name, last_name, email, gender, role, password FROM Users WHERE username = :username');
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
 
         $result = $stmt->execute();
@@ -27,9 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($row && secure_password_verify($password, $row['password'])) {
             // Login successful
-            echo 'Welcome, ' . $username . '!';
             $_SESSION['logged_in'] = true;
             $_SESSION['username'] = $username;
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['first_name'] = $row['first_name'];
+            $_SESSION['last_name'] = $row['last_name'];
+            $_SESSION['gender'] = $row['gender'];
+            $_SESSION['role'] = $row['role'];
             redirect('/index.php');
         } else {
             $errors = 'Invalid username or password!';
@@ -49,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <link rel="stylesheet" href="css/styles.css" media="all" type="text/css" />
 
         <!-- Font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
               rel="stylesheet"
               crossorigin="anonymous"

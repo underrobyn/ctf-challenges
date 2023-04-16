@@ -16,7 +16,7 @@ function get_random_str($bytes = 10) {
 
 function redirect($url) {
     header("Location: {$url}");
-    die ("<script>window.location.href='{$url}';</script>Redirecting you to {$url}");
+    die ("<style>html{background: #0f0f0f;}</style><script>window.location.href='{$url}';</script>Redirecting you to {$url}");
 }
 
 function check_user_logged_in() {
