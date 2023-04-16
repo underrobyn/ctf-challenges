@@ -10,11 +10,14 @@ RUN apt-get update && \
 
 RUN groupadd -g $GID filelock && \
     useradd $UNAME -u $UID -g $GID --create-home -s /bin/bash && \
-    echo "alias ll='ls -Fail'" >> .bashrc && \
-    echo "usr ALL=(ALL) NOPASSWD: /usr/bin/sudo -l" >> /etc/sudoers
+    echo "alias ll='ls -Fail'" >> /home/user/.bashrc && \
+    echo "echo logged on to $(hostname)" >> /home/user/.bashrc && \
+    echo "ALL ALL=(ALL) NOPASSWD:/usr/bin/sudo -l" >> /etc/sudoers && \
+    echo "user ALL=(ALL) NOPASSWD:/bin/cat" >> /etc/sudoers
 
 COPY flag.txt /flag.txt
-RUN mv /flag.txt /flag_$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1).txt
+RUN mv /flag.txt /flag_$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1).txt && \
+    chmod -R 600 /flag_*.txt
 
 WORKDIR /home/$UNAME
 
