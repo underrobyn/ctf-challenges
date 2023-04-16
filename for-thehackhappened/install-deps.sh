@@ -1,0 +1,14 @@
+composer require drupal/admin_toolbar
+composer require drupal/cookies
+composer require drupal/csp
+composer require drupal/devel
+composer require drupal/email_registration
+composer require drupal/field_permissions
+composer require drupal/matomo
+composer require drupal/pathauto
+composer require drupal/redirect
+composer require drupal/schema_metatag
+composer require drupal/twig_tweak
+composer require drupal/upgrade_status
+composer require drupal/webform
+composer require drush/drush

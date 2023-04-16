@@ -7,19 +7,20 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - ./.data/./drupal/modules:/var/www/html/modules
-      - ./.data/./drupal/profiles:/var/www/html/profiles
-      - ./.data/./drupal/themes:/var/www/html/themes
-      - ./.data/./drupal/sites:/var/www/html/sites
+      #- ./.data/./drupal/modules:/var/www/html/modules
+      #- ./.data/./drupal/profiles:/var/www/html/profiles
+      #- ./.data/./drupal/themes:/var/www/html/themes
+      #- ./.data/./drupal/sites:/var/www/html/sites
+      - ./.data/drupal-vol:/opt/drupal
     depends_on:
       - database
 
   database:
     image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: 4m4z1ngP45512
       MYSQL_DATABASE: drupal
       MYSQL_USER: drupal
-      MYSQL_PASSWORD: drupal
+      MYSQL_PASSWORD: drup41pwd
     volumes:
       - ./.data/mariadb:/var/lib/mysql

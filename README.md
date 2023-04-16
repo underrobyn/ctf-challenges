@@ -1,5 +1,12 @@
 # ctf-challenges
 
+## Forensics Challenges
+
+### For-TheHackHappened
+
+admin@blog.internal.clam-corp.com
+
+
 ## Shell Challenges
 
 ### Rem-DockerEsc
