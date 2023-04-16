@@ -2,6 +2,8 @@ FROM php:8.2.4-apache-bullseye
 
 USER root
 
+RUN apt update && apt install -y bind9-utils ca-certificates dnsutils inet-utils-ping net-tools
+
 # Set hostname for development
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
