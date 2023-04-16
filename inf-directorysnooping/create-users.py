@@ -16,7 +16,7 @@ last_names = [
 ]
 
 add_flag_ldif = """
-dn: CN={{USER_CN}},CN=Users,DC=localhost,DC=localdomain
+dn: CN={{USER_CN}},CN=Users,DC=directory,DC=clam-corp
 changetype: modify
 add: flagVariable
 flagVariable: "flag{well_done}"
