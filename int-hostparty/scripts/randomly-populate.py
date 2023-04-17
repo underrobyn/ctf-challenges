@@ -14,7 +14,7 @@ def random_file_name():
 def generate_random_files(num_files, file_size):
     for _ in range(num_files):
         file_name = random_file_name()
-        with open(file_name, 'w') as f:
+        with open(f'/srv/ftp/tmp/{file_name}', 'w') as f:
             for _ in range(file_size):
                 f.write(random_string(1024))
                 f.write('\n')

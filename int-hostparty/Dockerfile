@@ -1,31 +1,36 @@
 FROM ubuntu:jammy-20230308
 
 RUN apt-get update && \
-    apt-get install -y cron python vsftpd && \
+    apt-get install -y bash cron python3 vsftpd && \
     rm -rf /var/lib/apt/lists/*
 
 # Configure the FTP server
-RUN echo "anonymous_enable=YES" >> /etc/vsftpd.conf && \
-    echo "anon_root=/srv/ftp" >> /etc/vsftpd.conf && \
-    echo "local_enable=NO" >> /etc/vsftpd.conf && \
-    echo "write_enable=NO" >> /etc/vsftpd.conf && \
-    echo "anon_upload_enable=NO" >> /etc/vsftpd.conf && \
-    echo "anon_mkdir_write_enable=NO" >> /etc/vsftpd.conf
+COPY ./vsftpd.conf /etc/vsftpd.conf
 
 RUN mkdir -p /srv/ftp && \
     touch /srv/ftp/info.txt && \
     chmod 777 /srv/ftp && \
-    chmod 444 /srv/ftp/info.txt
+    mkdir -p /var/run/vsftpd/empty && \
+    chmod a-w /var/run/vsftpd && \
+    chmod a-w /var/run/vsftpd/empty
 
-RUN mkdir -p /srv/ftp/{logs,tmp,secret}
+RUN mkdir -p /srv/ftp/logs && \
+    mkdir -p /srv/ftp/secret && \
+    mkdir -p /srv/ftp/tmp
 
 COPY ./ftproot/logs/* /srv/ftp/logs/
 COPY ./ftproot/tmp/* /srv/ftp/tmp/
+COPY ./scripts/* /root/
 
 # Configure the automated population script
-RUN (crontab -l 2>/dev/null; echo "* * * * * python3 /root/randomly-populate.py") | crontab -
-RUN (crontab -l 2>/dev/null; echo "* * * * * python3 /root/randomly-populate.py") | crontab -
+RUN (crontab -l 2>/dev/null; echo "* * * * * /bin/bash /root/tmp.sh") | crontab -
+RUN service cron start
 
-EXPOSE 20 21
+# Run initial
+RUN /usr/bin/python3 /root/randomly-populate.py && \
+    chmod -R 444 /srv/ftp && \
+    chmod -R 777 /srv/ftp/tmp
+
+EXPOSE 20 21 50000-50009
 
 CMD ["/usr/sbin/vsftpd", "/etc/vsftpd.conf"]
