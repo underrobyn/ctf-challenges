@@ -30,18 +30,12 @@ def write_file(file_path, content):
 
 
 if __name__ == "__main__":
-    key = 42069  # A 10-bit key (range from 0 to 65535)
-    text = 'flag{d0nt_r011_y0ur_0wn_crypt0}'
+    key = 0
 
-    input_file_path = 'input.txt'
     encrypted_file_path = 'encrypted.txt'
-    decrypted_file_path = 'decrypted.txt'
+    decrypted_file_path = 'decrypted2.txt'
 
-    text = read_file(input_file_path)
-
-    encrypted_text = encrypt(text, key)
-    write_file(encrypted_file_path, encrypted_text)
-    print('Encrypted text saved to:', encrypted_file_path)
+    encrypted_text = read_file(encrypted_file_path)
 
     decrypted_text = decrypt(encrypted_text, key)
     write_file(decrypted_file_path, decrypted_text)
