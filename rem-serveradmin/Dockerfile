@@ -8,7 +8,7 @@ ARG GID=1000
 RUN apt-get update && \
     apt-get -qy full-upgrade
 
-RUN apt-get install -y cowsay htop ncat net-tools openssl openssh-server sl sudo
+RUN apt-get install -y cowsay htop ncat net-tools openssl openssh-server sl sudo vim
 
 COPY provision.sh /tmp/provision.sh
 
@@ -19,9 +19,10 @@ RUN groupadd -g $GID fred && \
     /tmp/provision.sh && \
     rm -f /tmp/provision.sh
 
-# Fix SSH server
+# Fix server settings
 RUN mkdir /run/sshd && \
-    chmod 0755 /run/sshd
+    chmod 0755 /run/sshd && \
+    usermod --shell /usr/sbin/nologin root
 
 # Copy flag
 COPY flag.txt /flag.txt
