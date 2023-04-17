@@ -1,4 +1,4 @@
-# Rem-NCServer
+# Rem-RootSays
 
 A netcat server to a remote machine.
 

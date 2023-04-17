@@ -8,10 +8,8 @@ RUN apt-get update && \
     apt-get -qy full-upgrade && \
     apt-get install -y sudo ncat
 
-RUN groupadd -g $GID filelock && \
+RUN groupadd -g $GID simon && \
     useradd $UNAME -u $UID -g $GID --create-home -s /bin/bash && \
-    echo "alias ll='ls -Fail'" >> /home/user/.bashrc && \
-    echo "echo logged on to $(hostname)" >> /home/user/.bashrc && \
     echo "ALL ALL=(ALL) NOPASSWD:/usr/bin/sudo -l" >> /etc/sudoers && \
     echo "user ALL=(ALL) NOPASSWD:/bin/cat" >> /etc/sudoers
 

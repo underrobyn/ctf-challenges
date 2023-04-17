@@ -6,7 +6,7 @@ ARG GID=1000
 
 RUN apt-get update && \
     apt-get -qy full-upgrade && \
-    apt-get install sudo
+    apt-get install -y sudo vim htop net-tools openssl ncat
 
 RUN groupadd -g $GID fred && \
     useradd $UNAME -u $UID -g $GID --create-home -s /bin/bash && \
@@ -14,13 +14,19 @@ RUN groupadd -g $GID fred && \
     echo "usr ALL=(ALL) NOPASSWD: /usr/bin/sudo -l" >> /etc/sudoers && \
     echo "usr ALL=(ALL) NOPASSWD: /usr/bin/local/python" >> /etc/sudoers
 
-WORKDIR /opt/myapp
+COPY provision.sh /tmp/provision.sh
+COPY server.sh /tmp/server.sh
 
-COPY flag.txt /root/flag.txt
+RUN /tmp/provision.sh && rm -f /tmp/provision.sh
 
+WORKDIR /home/user
 
-RUN chmod 600 /opt/myapp/flag.txt && chmod 644 /opt/myapp/reader.py
+COPY flag.txt /home/jimmy/folder1/flag.txt
+
+RUN chmod 600 /home/jimmy/folder1/flag.txt
 
 USER $UNAME
 
-CMD ["bash"]
+EXPOSE 5555
+
+CMD ["/tmp/server.sh"]
