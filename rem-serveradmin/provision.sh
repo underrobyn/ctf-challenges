@@ -12,19 +12,21 @@ useradd serveradmin --create-home -s /bin/bash
 echo "jimmy:$jimmy_password" | chpasswd
 echo "serveradmin:$serveradmin_password" | chpasswd
 
+# Allow all users to see their server permissions
+echo "ALL ALL=(ALL) NOPASSWD:/usr/bin/sudo -l" >> /etc/sudoers
+
 # Allow sarah to su to serveradmin
 echo "user ALL=(serveradmin) /bin/su" >> /etc/sudoers
 
 # Set up permissions for serveradmin
 echo "serveradmin ALL=(ALL) NOPASSWD: /usr/bin/passwd [a-z]*" >> /etc/sudoers
-echo "serveradmin ALL=(ALL) NOPASSWD: /usr/bin/apt-get" >> /etc/sudoers
 echo "serveradmin ALL=(ALL) NOPASSWD: /usr/bin/systemctl" >> /etc/sudoers
 echo "serveradmin ALL=(ALL) NOPASSWD: /usr/bin/netstat" >> /etc/sudoers
 echo "serveradmin ALL=(ALL) NOPASSWD: /usr/bin/htop" >> /etc/sudoers
 
 # Create jimmy's files
 mkdir -p /home/jimmy/folder1
-touch /home/jimmy/{flag.txt,file1.txt,file2.txt,folder1/{file3.txt,file4.txt}}
+touch /home/jimmy/{file1.txt,file2.txt,folder1/{file3.txt,file4.txt}}
 
 # Create serveradmin's files
 mkdir -p /home/serveradmin/{backups,config,logs}

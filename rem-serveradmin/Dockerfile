@@ -1,32 +1,34 @@
 FROM ubuntu:jammy-20230308
 
 ARG UNAME=user
+ARG UPWD=Password123
 ARG UID=1000
 ARG GID=1000
 
 RUN apt-get update && \
-    apt-get -qy full-upgrade && \
-    apt-get install -y sudo vim htop net-tools openssl ncat
+    apt-get -qy full-upgrade
 
-RUN groupadd -g $GID fred && \
-    useradd $UNAME -u $UID -g $GID --create-home -s /bin/bash && \
-    echo "alias ll='ls -Fail'" >> .bashrc && \
-    echo "usr ALL=(ALL) NOPASSWD: /usr/bin/sudo -l" >> /etc/sudoers && \
-    echo "usr ALL=(ALL) NOPASSWD: /usr/bin/local/python" >> /etc/sudoers
+RUN apt-get install -y sudo htop ncat net-tools openssl openssh-server
 
 COPY provision.sh /tmp/provision.sh
-COPY server.sh /tmp/server.sh
 
-RUN /tmp/provision.sh && rm -f /tmp/provision.sh
+# Provision users
+RUN groupadd -g $GID fred && \
+    useradd $UNAME -u $UID -g $GID --create-home -s /bin/bash && \
+    echo "$UNAME:$UPWD" | chpasswd && \
+    /tmp/provision.sh && \
+    rm -f /tmp/provision.sh
 
-WORKDIR /home/user
+# Fix SSH server
+RUN mkdir /run/sshd && \
+    chmod 0755 /run/sshd
 
-COPY flag.txt /home/jimmy/folder1/flag.txt
+# Copy flag
+COPY flag.txt /flag.txt
 
-RUN chmod 600 /home/jimmy/folder1/flag.txt
+RUN mv /flag.txt /home/jimmy/folder1/flag_$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1).txt
+RUN chmod 600 /home/jimmy/folder1/flag_*.txt
 
-USER $UNAME
+EXPOSE 22
 
-EXPOSE 5555
-
-CMD ["/tmp/server.sh"]
+CMD ["/usr/sbin/sshd", "-D"]
