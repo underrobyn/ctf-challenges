@@ -1,0 +1,4 @@
+dn: CN=User,CN=Schema,CN=Configuration,DC=internal,DC=clam-corp,DC=com
+changetype: modify
+add: mayContain
+mayContain: flagVariable

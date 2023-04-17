@@ -1,4 +1,0 @@
-dn: CN=User,CN=Schema,CN=Configuration,DC=localhost,DC=localdomain
-changetype: modify
-add: mayContain
-mayContain: flagVariable

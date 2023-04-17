@@ -7,7 +7,7 @@ services:
       - SYS_ADMIN
       - DAC_READ_SEARCH
     environment:
-      - DOMAIN_NAME=localhost.localdomain
+      - DOMAIN_NAME=internal.clam-corp.com
       - ADMIN_PASSWORD=Pa55w0rd
     ports:
       - "53:53"

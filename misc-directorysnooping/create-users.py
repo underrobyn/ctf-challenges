@@ -16,18 +16,18 @@ last_names = [
 ]
 
 add_flag_ldif = """
-dn: CN={{USER_CN}},CN=Users,DC=directory,DC=clam-corp
+dn: CN={{USER_CN}},CN=Users,DC=internal,DC=clam-corp,DC=com
 changetype: modify
 add: flagVariable
 flagVariable: "flag{well_done}"
 """
 
 
-def random_string(length):
+def random_string(length: int) -> str:
     return ''.join(random.choice(string.ascii_letters + string.digits + '!£&') for _ in range(length))
 
 
-def create_user(username, password, first_name, last_name):
+def create_user(username: str, password: str, first_name: str, last_name: str) -> None:
     print(f'Creating user: {first_name} {last_name}, {username}, with password: {password}')
     cmd = f'sudo samba-tool user create {username} "{password}" --given-name="{first_name}" --surname="{last_name}"'
     subprocess.run(cmd, shell=True, check=True, text=True)
@@ -36,7 +36,7 @@ def create_user(username, password, first_name, last_name):
     subprocess.run(cmd, shell=True, check=True, text=True)
 
 
-def set_flag(username):
+def set_flag(username: str) -> None:
     with open('/tmp/add_flag.ldif', 'w') as f:
         f.write(add_flag_ldif.replace('{{USER_CN}}', username))
 
@@ -44,13 +44,12 @@ def set_flag(username):
     subprocess.run(cmd, shell=True, check=True, text=True)
 
 
-def add_user_to_group(username):
+def add_user_to_group(username: str) -> None:
     cmd = f'sudo samba-tool group addmembers "Flag Readers" {username}'
     subprocess.run(cmd, shell=True, check=True, text=True)
 
 
-
-def generate_users(num_users):
+def generate_users(num_users: int) -> None:
     users_list = []
     for _ in range(num_users):
         first_name = random.choice(first_names)
@@ -70,5 +69,5 @@ def generate_users(num_users):
 
 
 if __name__ == "__main__":
-    num_users = 40
+    num_users = 100
     generate_users(num_users)

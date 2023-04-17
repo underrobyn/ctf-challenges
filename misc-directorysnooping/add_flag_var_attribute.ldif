@@ -1,4 +1,4 @@
-dn: CN=flagVariable,CN=Schema,CN=Configuration,DC=localhost,DC=localdomain
+dn: CN=flagVariable,CN=Schema,CN=Configuration,DC=internal,DC=clam-corp,DC=com
 changetype: add
 objectClass: top
 objectClass: attributeSchema
