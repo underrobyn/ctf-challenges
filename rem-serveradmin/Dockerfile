@@ -8,7 +8,7 @@ ARG GID=1000
 RUN apt-get update && \
     apt-get -qy full-upgrade
 
-RUN apt-get install -y sudo htop ncat net-tools openssl openssh-server
+RUN apt-get install -y cowsay htop ncat net-tools openssl openssh-server sl sudo
 
 COPY provision.sh /tmp/provision.sh
 

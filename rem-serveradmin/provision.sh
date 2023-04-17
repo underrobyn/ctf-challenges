@@ -28,6 +28,10 @@ echo "serveradmin ALL=(ALL) NOPASSWD: /usr/bin/htop" >> /etc/sudoers
 mkdir -p /home/jimmy/folder1
 touch /home/jimmy/{file1.txt,file2.txt,folder1/{file3.txt,file4.txt}}
 
+echo "cowsaw Hey Jimmy!" >> /home/jimmy/.bashrc
+echo "alias ls=\"sl\"" >> /home/jimmy/.bashrc
+echo "export PROMPT_COMMAND=\"cd\"" >> /home/jimmy/.bashrc
+
 # Create serveradmin's files
 mkdir -p /home/serveradmin/{backups,config,logs}
 touch /home/serveradmin/{backups/{backup1.tar.gz,backup2.tar.gz,backup3.tar.gz},config/{config1.conf,config2.conf,config3.conf},logs/{log1.txt,log2.txt,log3.txt}}
