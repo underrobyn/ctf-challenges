@@ -5,13 +5,6 @@ function setupEventListeners() {
     const userInput = document.getElementById("user_email");
     const userSubmit = document.getElementById("send_email");
 
-    userInput.addEventListener("keydown", (event) => {
-        if (event.key !== "Enter") return;
-        if (waiting) return;
-        const message = userInput.value.trim();
-        if (message !== "") sendMessage(message);
-        userInput.value = "";
-    });
     userSubmit.addEventListener("click", (event) => {
         const message = userInput.value.trim();
         if (waiting) return;

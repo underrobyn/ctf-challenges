@@ -34,9 +34,9 @@ def handle_rate_limit_exceeded(e):
     return jsonify(out_error(f'{e}')), 429
 
 
-@app.before_request
-def make_session_permanent():
-    session.permanent = True
+#@app.before_request
+#def make_session_permanent():
+#    session.permanent = True
 
 
 @app.after_request

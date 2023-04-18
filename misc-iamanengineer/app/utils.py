@@ -1,3 +1,4 @@
+import os
 import openai
 import tiktoken
 from os.path import isfile
@@ -20,8 +21,9 @@ INITIAL_MESSAGE = {
 }
 
 
-def read_prompt(email_id: str) -> (str, str):
-    prompt_path = f'prompts/{email_id}.prompt'
+def read_prompt(email_id: str) -> str:
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    prompt_path = f'{dir_path}/prompts/{email_id}.prompt'
 
     if not isfile(prompt_path):
         raise PromptError(f'Prompt not found')
