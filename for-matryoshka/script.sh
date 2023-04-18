@@ -56,5 +56,55 @@ lz4 -z -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz > flag.tar.gz.rar.zip.iso.xz.bz
 # Archive the resulting file with zstd
 zstd -z -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4 > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4.zst
 
+
+### VERIFY SCRIPT
+
+# Switch to data/verify dir
+mkdir -p /data/verify
+cd /data/verify || exit 1
+
+cp /data/flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4.zst /data/verify/
+
+# Unarchive zst
+zstd -d -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4.zst > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4
+
+# Unarchive lz4
+lz4 -d -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4 > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz
+
+# Unarchive lz
+lzip -d -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z
+
+# Unarchive Z (compress)
+uncompress -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z > flag.tar.gz.rar.zip.iso.xz.bz2.7z
+
+# Unarchive 7z
+7z x -so flag.tar.gz.rar.zip.iso.xz.bz2.7z > flag.tar.gz.rar.zip.iso.xz.bz2
+
+# Unarchive bzip2
+bzip2 -d -c flag.tar.gz.rar.zip.iso.xz.bz2 > flag.tar.gz.rar.zip.iso.xz
+
+# Unarchive xz
+xz -d -c flag.tar.gz.rar.zip.iso.xz > flag.tar.gz.rar.zip.iso
+
+# Unarchive iso
+mkdir iso_extract
+mount -o loop flag.tar.gz.rar.zip.iso iso_extract
+cp iso_extract/flag.tar.gz.rar.zip .
+umount iso_extract
+rm -r iso_extract
+
+# Unarchive zip
+unzip flag.tar.gz.rar.zip
+
+# Unarchive rar
+unrar x flag.tar.gz.rar
+
+# Unarchive gz
+gzip -d flag.tar.gz
+
+# Unarchive tar to /tmp
+tar -xf flag.tar -C /tmp
+
+
 # move final file
 cp flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4.zst /mnt/data/final.zst

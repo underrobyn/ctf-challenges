@@ -28,6 +28,7 @@ RUN service cron start
 
 # Run initial
 RUN /usr/bin/python3 /root/randomly-populate.py && \
+    chown -R nobody:nogroup /srv/ftp && \
     chmod -R 444 /srv/ftp && \
     chmod -R 777 /srv/ftp/tmp
 
