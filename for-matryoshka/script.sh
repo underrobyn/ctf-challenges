@@ -1,62 +1,60 @@
 #!/bin/bash
 
+# Switch to data dir
+cd /data || exit 1
+
+# Ensure required tools are installed
+command -v tar >/dev/null 2>&1 || { echo >&2 "tar is required but not installed. Aborting."; exit 1; }
+command -v gzip >/dev/null 2>&1 || { echo >&2 "gzip is required but not installed. Aborting."; exit 1; }
+command -v rar >/dev/null 2>&1 || { echo >&2 "rar is required but not installed. Aborting."; exit 1; }
+command -v zip >/dev/null 2>&1 || { echo >&2 "zip is required but not installed. Aborting."; exit 1; }
+command -v genisoimage >/dev/null 2>&1 || { echo >&2 "genisoimage is required but not installed. Aborting."; exit 1; }
+command -v xz >/dev/null 2>&1 || { echo >&2 "xz is required but not installed. Aborting."; exit 1; }
+command -v bzip2 >/dev/null 2>&1 || { echo >&2 "bzip2 is required but not installed. Aborting."; exit 1; }
+command -v 7z >/dev/null 2>&1 || { echo >&2 "7z is required but not installed. Aborting."; exit 1; }
+command -v compress >/dev/null 2>&1 || { echo >&2 "compress is required but not installed. Aborting."; exit 1; }
+command -v lzip >/dev/null 2>&1 || { echo >&2 "lzip is required but not installed. Aborting."; exit 1; }
+command -v lz4 >/dev/null 2>&1 || { echo >&2 "lz4 is required but not installed. Aborting."; exit 1; }
+command -v zstd >/dev/null 2>&1 || { echo >&2 "zstd is required but not installed. Aborting."; exit 1; }
+
 # Set the name of the file we want to archive
-FILENAME="flag.txt"
+FILENAME="/data/flag.txt"
 
-# Create an array of archive formats we want to use
-FORMATS=("tar.gz" "rar" "zip" "iso" "xz" "bz2" "7z" "z" "sit")
+# Archive flag.txt with tar
+tar -cf flag.tar $FILENAME
 
-# Loop through the archive formats and create archives
-for FORMAT in "${FORMATS[@]}"
-do
-    # Create the archive using tar and the current format
-    tar -cf "$FILENAME.tar" "$FILENAME"
+# Archive the resulting file with gz
+gzip -c flag.tar > flag.tar.gz
 
-    # Compress the tar archive using gzip
-    gzip "$FILENAME.tar"
+# Archive the resulting file with rar
+rar a flag.tar.gz.rar flag.tar.gz
 
-    # Create the archive using the current format and the gzip-compressed tar file
-    case $FORMAT in
-        tar.gz)
-            mv "$FILENAME.tar.gz" "$FILENAME.$FORMAT"
-            ;;
-        rar)
-            7z a -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on "$FILENAME.$FORMAT" "$FILENAME.tar.gz"
-            rm "$FILENAME.tar.gz"
-            ;;
-        zip)
-            7z a -tzip "$FILENAME.$FORMAT" "$FILENAME.tar.gz"
-            rm "$FILENAME.tar.gz"
-            ;;
-        iso)
-            mkisofs -o "$FILENAME.$FORMAT" "$FILENAME.tar.gz"
-            rm "$FILENAME.tar.gz"
-            ;;
-        xz)
-            xz "$FILENAME.tar"
-            mv "$FILENAME.tar.xz" "$FILENAME.$FORMAT"
-            ;;
-        bz2)
-            bzip2 "$FILENAME.tar"
-            mv "$FILENAME.tar.bz2" "$FILENAME.$FORMAT"
-            ;;
-        7z)
-            7z a "$FILENAME.$FORMAT" "$FILENAME.tar.gz"
-            rm "$FILENAME.tar.gz"
-            ;;
-        z)
-            compress "$FILENAME.tar"
-            mv "$FILENAME.tar.Z" "$FILENAME.$FORMAT"
-            ;;
-        sit)
-            stuff "$FILENAME.tar"
-            mv "$FILENAME.tar.sit" "$FILENAME.$FORMAT"
-            ;;
-        *)
-            echo "Unsupported format: $FORMAT"
-            ;;
-    esac
+# Archive the resulting file with zip
+zip flag.tar.gz.rar.zip flag.tar.gz.rar
 
-    # Print a message indicating that the archive was created
-    echo "Created archive: $FILENAME.$FORMAT"
-done
+# Archive the resulting file with iso
+genisoimage -o flag.tar.gz.rar.zip.iso -J -r flag.tar.gz.rar.zip
+
+# Archive the resulting file with xz
+xz -z -c flag.tar.gz.rar.zip.iso > flag.tar.gz.rar.zip.iso.xz
+
+# Archive the resulting file with bzip2
+bzip2 -z -c flag.tar.gz.rar.zip.iso.xz > flag.tar.gz.rar.zip.iso.xz.bz2
+
+# Archive the resulting file with 7z
+7z a flag.tar.gz.rar.zip.iso.xz.bz2.7z flag.tar.gz.rar.zip.iso.xz.bz2
+
+# Archive the resulting file with z (compress)
+compress -c flag.tar.gz.rar.zip.iso.xz.bz2.7z > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z
+
+# Archive the resulting file with lz
+lzip -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz
+
+# Archive the resulting file with lz4
+lz4 -z -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4
+
+# Archive the resulting file with zstd
+zstd -z -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4 > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4.zst
+
+# move final file
+cp flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4.zst /mnt/data/final.zst
