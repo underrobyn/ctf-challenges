@@ -19,11 +19,10 @@ RUN groupadd -g $GID $UNAME && \
     useradd $UNAME -u $UID -g $GID --create-home -s /bin/bash && \
     echo "$UNAME:$UPWD" | chpasswd && \
     echo "ALL ALL=(ALL) NOPASSWD:/usr/bin/sudo -l" >> /etc/sudoers && \
-    echo "$UNAME ALL=(ALL) NOPASSWD:/usr/bin/sudo bash" >> /etc/sudoers
+    echo "user ALL=(ALL) NOPASSWD:/bin/cat" >> /etc/sudoers && \
+    echo "user ALL=(ALL) NOPASSWD:/bin/rm" >> /etc/sudoers
 
-RUN echo "flag{43ncrypt_y0ur_tr4ff1c__3v3n_1nt3rn41}" >> /root/flag.txt
-
-RUN hostname jellyfish-srv221.internal.clam-corp.com
+RUN echo "flag{43ncrypt_y0ur_tr4ff1c__3v3n_1nt3rn41}" >> /flag.txt
 
 EXPOSE 23
 
