@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker build -t rctf_for_sharkinthewires.
+docker build -t rctf_for_sharkinthewires .
 
 docker container rm rctf_sharkinthewires_app
 
