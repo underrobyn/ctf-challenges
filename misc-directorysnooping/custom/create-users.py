@@ -147,11 +147,13 @@ def generate_users(num_users: int) -> None:
 
     for server in server_names:
         admin_for_range = random.choice(users_list)
-        for i in range(1, random.randint(1, 9)):
+        for i in range(1, random.randint(2, 9)):
             create_computer(f'{server}0{i}', f'Computer for team {server}, Asset owner: {admin_for_range[1]}', admin_for_range[0], 0)
 
     create_computer('EMAILSRV00', 'flag{d1r3ct0ry_5n00p1ng_c4n_b3_fru1tfu1}', flag_user[0], 0)
-    create_computer('ADPRD01', 'This server', flag_user[0], 0)
+
+    create_computer('ADPRD02', 'Part of AD cluster', flag_user[0], 0)
+    create_computer('ADPRD03', 'Part of AD cluster', flag_user[0], 0)
 
 
 if __name__ == "__main__":
