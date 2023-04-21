@@ -1,4 +1,4 @@
-FROM php:8.2.4-cli-alpine3.17
+FROM php:8.2.5-cli-alpine3.17
 
 RUN apk update && apk add --no-cache bash git rlwrap readline-dev nmap-ncat
 
