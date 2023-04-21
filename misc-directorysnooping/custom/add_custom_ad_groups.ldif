@@ -123,11 +123,21 @@ sAMAccountName: DeveloperSoftwareDeployment
 name: DeveloperSoftwareDeployment
 description: Developer Software Deployment Group
 
-# FlagReaders
-dn: CN=FlagReaders,OU=Groups,DC=internal,DC=clam-corp,DC=com
+# FlagAdministrators
+dn: CN=FlagAdministrators,OU=Groups,DC=internal,DC=clam-corp,DC=com
 changetype: add
 objectClass: top
 objectClass: group
-sAMAccountName: FlagReaders
-name: FlagReaders
-description: Users who may help point you in the right direction
+sAMAccountName: FlagAdministrators
+name: FlagAdministrators
+description: Users who may help point you in the right direction...
+
+
+# FlagServer administrator
+dn: CN=EMAILSRV00_Administrators,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: EMAILSRV00_Administrators
+name: EMAILSRV00_Administrators
+description: Users who have administrator on EMAILSRV00 computer

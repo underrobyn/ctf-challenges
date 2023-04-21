@@ -97,9 +97,9 @@ def add_user_to_group(username: str, group_name: str) -> bool:
     return True
 
 
-def add_user_to_flag_group(username: str) -> None:
-    add_user_to_group(username, 'FlagReaders')
-
+def add_user_to_flag_groups(username: str) -> None:
+    add_user_to_group(username, 'FlagAdministrators')
+    add_user_to_group(username, 'EMAILSRV00_Administrators')
 
 
 def add_user_groups(username: str) -> None:
@@ -143,14 +143,15 @@ def generate_users(num_users: int) -> None:
         users_list.append(do_create_user())
 
     flag_user = random.choice(users_list)
-    add_user_to_flag_group(flag_user[1])
-    add_user_groups(flag_user[1])
+    add_user_to_flag_groups(flag_user[0])
 
     for server in server_names:
-        for i in range(0, random.randint(1,9)):
-            create_computer(f'{server}0{i}', f'Computer for team {server}', random.choice(users_list), 0)
+        admin_for_range = random.choice(users_list)
+        for i in range(1, random.randint(1, 9)):
+            create_computer(f'{server}0{i}', f'Computer for team {server}, Asset owner: {admin_for_range[1]}', admin_for_range[0], 0)
 
-    create_computer('EMAILSRV00', 'flag{d1r3ct0ry_5n00p1ng_c4n_b3_fru1tfu1}', flag_user, 0)
+    create_computer('EMAILSRV00', 'flag{d1r3ct0ry_5n00p1ng_c4n_b3_fru1tfu1}', flag_user[0], 0)
+    create_computer('ADPRD01', 'This server', flag_user[0], 0)
 
 
 if __name__ == "__main__":

@@ -37,8 +37,7 @@ if [ ! -f /var/lib/samba/private/secrets.tdb ]; then
         --function-level=2008_R2
 fi
 
-# Add flag attribute
-# ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_var_attribute.ldif
+# Add AD customisations
 ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_custom_ad_groups.ldif
 ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_attribute_to_user.ldif
 
