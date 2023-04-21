@@ -2,24 +2,44 @@ import java.util.Scanner;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.net.InetAddress;
 import java.security.Key;
 import java.util.Base64;
+import java.io.IOException;
 
-public class EncryptString {
-    private static final String CUSTOM_KEY = "ClamPastaVeryTasty";
+
+public class CCEncryptService {
+    private static final String CUSTOM_KEY = "ClamCorpSecretKeyF0rEncService99";
     private static final byte[] KEY = CUSTOM_KEY.getBytes(StandardCharsets.UTF_8); // 16-byte key for AES-128 encryption
     private static final String ALGORITHM = "AES";
     private static final String TRANSFORMATION = "AES";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the string to be encrypted: ");
+
+        System.out.print("Do you want to use the (E)ncryption or (D)ecryption service? ");
+        String choice = scanner.nextLine().trim().toUpperCase();
+
+        CCEncryptService.canReachInternalNetwork();
+
+        if (!choice.equals("E") && !choice.equals("D")) {
+            System.out.println("Invalid choice. Please choose E for encryption or D for decryption.");
+            scanner.close();
+            return;
+        }
+
+        System.out.print("Enter the string to be processed: ");
         String inputString = scanner.nextLine();
         scanner.close();
 
         try {
-            String encryptedString = encrypt(inputString);
-            System.out.println("Encrypted string (in Base64 form): " + encryptedString);
+            if (choice.equals("E")) {
+                String encryptedString = encrypt(inputString);
+                System.out.println("Encrypted string (in Base64 form): " + encryptedString);
+            } else {
+                String decryptedString = decrypt(inputString);
+                System.out.println("Decrypted string: " + decryptedString);
+            }
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
@@ -48,18 +68,22 @@ public class EncryptString {
         String ipAddress = "encryption-service.internal.clam-corp.com";
         int timeout = 5000;
 
+        System.out.println("Attempting to reach internal encryption service...");
+
         try {
             boolean isReachable = InetAddress.getByName(ipAddress).isReachable(timeout);
 
             if (isReachable) {
-                System.out.println(ipAddress + " is reachable.");
+                System.out.println("Able to contact encryption service!");
                 return true;
             } else {
-                System.out.println(ipAddress + " is not reachable.");
-                return false;
+                System.out.println("Encryption service is unreachable.");
+                System.exit(255);
+                return true;
             }
         } catch (IOException e) {
-            System.err.println("Error: " + e.getMessage());
+            System.err.println("Error when attempting to contact encryption service.");
+            System.exit(254);
         }
         return false;
     }
