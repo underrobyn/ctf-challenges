@@ -12,8 +12,6 @@ RUN apt-get update && \
 EXPOSE 53 88 135 137 138 139 389 445 464 636 3268 3269
 
 # Copy LDIF
-COPY custom/add_flag_var_attribute.ldif /tmp/add_flag_var_attribute.ldif
-COPY custom/add_flag_attribute_to_user.ldif /tmp/add_flag_attribute_to_user.ldif
 COPY custom/add_custom_ad_groups.ldif /tmp/add_custom_ad_groups.ldif
 COPY custom/create-users.py /tmp/create-users.py
 

@@ -3,6 +3,7 @@ version: '3.9'
 services:
   samba-ad-dc:
     build: .
+    hostname: ad-prd01.internal.clam-corp.com
     cap_add:
       - SYS_ADMIN
       - DAC_READ_SEARCH

@@ -113,3 +113,21 @@ objectClass: group
 sAMAccountName: StandardSoftwareDeployment
 name: StandardSoftwareDeployment
 description: Standard Software Deployment Group
+
+# DeveloperSoftwareDeployment
+dn: CN=DeveloperSoftwareDeployment,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: DeveloperSoftwareDeployment
+name: DeveloperSoftwareDeployment
+description: Developer Software Deployment Group
+
+# FlagReaders
+dn: CN=FlagReaders,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: FlagReaders
+name: FlagReaders
+description: Users who may help point you in the right direction

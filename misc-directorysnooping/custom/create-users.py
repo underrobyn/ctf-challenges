@@ -3,7 +3,6 @@ import os
 import random
 import string
 import subprocess
-import tempfile
 from time import sleep
 
 
@@ -21,14 +20,10 @@ last_names = [
 ]
 
 groups_list = ["LocalAdmins", "ProxyUsers", "VPNUsers", "BackupAdmins", "BlogUsers", "LinuxTeam", "DevOpsTeam",
-               "SecurityTeam", "NetworkTeam", "WebTeam", "LMSTeam"]
+               "SecurityTeam", "NetworkTeam", "WebTeam", "LMSTeam", "DeveloperSoftwareDeployment"]
 
-add_flag_ldif = """
-dn: CN={{USER_CN}},CN=Users,DC=internal,DC=clam-corp,DC=com
-changetype: modify
-add: flagVariable
-flagVariable: "flag{well_done}"
-"""
+server_names = ['ITSRV', 'VPNSRV', 'PROXYSRV', 'FILESRV', 'BACKUPSRV', 'DEV', 'WEB', 'LINUXSRV', 'MSDBSRV', 'LMSINTERNAL',
+                'SECURITYSRV', 'EMAILSRV', 'FIREWALL', 'FORENSICSRV', 'DEVSIT', 'DEVUAT', 'DEVPROD', 'CICD', 'CLOUD']
 
 add_groups_ldif = """
 dn: CN={{GROUP_CN}},OU=Groups,DC=internal,DC=clam-corp,DC=com
@@ -60,12 +55,22 @@ def create_user(username: str, password: str, first_name: str, last_name: str, r
         return create_user(username, password, first_name, last_name, retries)
 
 
-def set_flag(username: str) -> None:
-    with open('/tmp/add_flag.ldif', 'w') as f:
-        f.write(add_flag_ldif.replace('{{USER_CN}}', username))
+def create_computer(netbios: str, desc: str, admin: str, retries: int) -> None:
+    print(f'Creating computer: {netbios}')
 
-    cmd = f'sudo ldbmodify -H /var/lib/samba/private/sam.ldb /tmp/add_flag.ldif --option="dsdb:schema update allowed"=true'
-    subprocess.run(cmd, shell=True, check=True, text=True)
+    if retries > 3:
+        return
+
+    u = f'CN={admin},CN=Users,DC=internal,DC=clam-corp,DC=com'
+
+    try:
+        cmd = f'sudo samba-tool computer create {netbios} --description="{desc}" -U "{u}" --password="Pa55w0rd"'
+        subprocess.run(cmd, shell=True, check=True, text=True)
+    except Exception as err:
+        print(f'computer CREATION FAILED, RETRYING: {retries}, {err}')
+        sleep(1)
+        retries = retries + 1
+        return create_computer(netbios, desc, admin, retries)
 
 
 def add_user_to_group(username: str, group_name: str) -> bool:
@@ -93,8 +98,8 @@ def add_user_to_group(username: str, group_name: str) -> bool:
 
 
 def add_user_to_flag_group(username: str) -> None:
-    cmd = f'sudo samba-tool group addmembers "FlagReaders" "{username}"'
-    subprocess.run(cmd, shell=True, check=True, text=True)
+    add_user_to_group(username, 'FlagReaders')
+
 
 
 def add_user_groups(username: str) -> None:
@@ -138,9 +143,14 @@ def generate_users(num_users: int) -> None:
         users_list.append(do_create_user())
 
     flag_user = random.choice(users_list)
-    set_flag(flag_user[0])
     add_user_to_flag_group(flag_user[1])
     add_user_groups(flag_user[1])
+
+    for server in server_names:
+        for i in range(0, random.randint(1,9)):
+            create_computer(f'{server}0{i}', f'Computer for team {server}', random.choice(users_list), 0)
+
+    create_computer('EMAILSRV00', 'flag{d1r3ct0ry_5n00p1ng_c4n_b3_fru1tfu1}', flag_user, 0)
 
 
 if __name__ == "__main__":

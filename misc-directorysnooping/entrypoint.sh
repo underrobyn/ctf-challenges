@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export DOMAIN_NAME=${DOMAIN_NAME:-mydomain.local}
+export DOMAIN_NAME=${DOMAIN_NAME:-internal.clam-corp.com}
 export ADMIN_PASSWORD=${ADMIN_PASSWORD:-Pa55w0rd}
 
 # Configure Samba
@@ -8,9 +8,9 @@ cat >> /etc/samba/smb.conf <<EOL
 [global]
 workgroup = $(echo ${DOMAIN_NAME} | cut -d. -f1 | tr '[:lower:]' '[:upper:]')
 realm = $(echo ${DOMAIN_NAME} | tr '[:lower:]' '[:upper:]')
-netbios name = $(hostname | tr '[:lower:]' '[:upper:]')
+netbios name = $(hostname | awk -F. '{print $1}' | tr -cd '[:alnum:]' | cut -c 1-15)
 server role = active directory domain controller
-dns forwarder = 8.8.8.8
+dns forwarder = 1.1.1.1
 idmap_ldb:use rfc2307 = yes
 vfs objects = acl_xattr dfs_samba4
 map acl inherit = yes
@@ -38,11 +38,10 @@ if [ ! -f /var/lib/samba/private/secrets.tdb ]; then
 fi
 
 # Add flag attribute
-ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_var_attribute.ldif
-ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_attribute_to_user.ldif
+# ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_var_attribute.ldif
 ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_custom_ad_groups.ldif
+ldbmodify -H /var/lib/samba/private/sam.ldb --option="dsdb:schema update allowed"=true /tmp/add_flag_attribute_to_user.ldif
 
-samba-tool group add "FlagReaders" --groupou="CN=Builtin" --description="Users who may help point you in the right direction"
 
 # Create users
 python3 /tmp/create-users.py

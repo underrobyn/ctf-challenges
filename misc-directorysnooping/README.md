@@ -12,3 +12,6 @@ Player Username 2: jeffrey.jones
 Player Password 2: flag from misc-jeffrey challenge
 
 Hint: Try connect using AD explorer
+
+
+Flag: flag{d1r3ct0ry_5n00p1ng_c4n_b3_fru1tfu1}
