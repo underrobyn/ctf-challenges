@@ -15,11 +15,21 @@ last_names = [
     "Lee", "Thompson", "White", "Clark", "Lewis", "Robinson", "Walker", "Young", "Hill", "Adams", "Baker", "Acres"
 ]
 
+groups_list = ["LocalAdmins", "ProxyUsers", "VPNUsers", "BackupAdmins", "BlogUsers", "LinuxTeam", "DevOpsTeam",
+               "SecurityTeam", "NetworkTeam", "WebTeam", "LMSTeam"]
+
 add_flag_ldif = """
 dn: CN={{USER_CN}},CN=Users,DC=internal,DC=clam-corp,DC=com
 changetype: modify
 add: flagVariable
 flagVariable: "flag{well_done}"
+"""
+
+add_groups_ldif = """
+dn: CN=LocalAdmins,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: modify
+add: member
+member: CN={{USER_CN}},CN=Users,DC=internal,DC=clam-corp,DC=com
 """
 
 
@@ -44,28 +54,45 @@ def set_flag(username: str) -> None:
     subprocess.run(cmd, shell=True, check=True, text=True)
 
 
-def add_user_to_group(username: str) -> None:
-    cmd = f'sudo samba-tool group addmembers "Flag Readers" {username}'
+def add_user_to_group(username: str, group_name: str) -> None:
+    cmd = f'sudo samba-tool group addmembers "{group_name}" {username}'
     subprocess.run(cmd, shell=True, check=True, text=True)
+
+
+def add_user_groups(username: str) -> None:
+    add_user_to_group(username, "StandardSoftwareDeployment")
+
+    group_add_int = random.randint(1, len(groups_list))
+    groups_to_add = random.sample(groups_list, group_add_int)
+    for group in groups_to_add:
+        add_user_to_group(username, group)
+
+
+def do_create_user() -> list[str, str, str]:
+    first_name = random.choice(first_names)
+    last_name = random.choice(last_names)
+    rand_user_number = random.randint(100000,999999)
+    username = f"{first_name.lower()}.{last_name.lower()}{rand_user_number}"
+    password = random_string(32)
+    create_user(username, password, first_name, last_name)
+    return [f'{first_name} {last_name}', username]
 
 
 def generate_users(num_users: int) -> None:
     users_list = []
     for _ in range(num_users):
-        first_name = random.choice(first_names)
-        last_name = random.choice(last_names)
-        username = f"{first_name.lower()}.{last_name.lower()}"
-        password = random_string(32)
-        try:
-            create_user(username, password, first_name, last_name)
-        except Exception:
-            continue
-
-        users_list.append([f'{first_name} {last_name}', username])
+        users_list.append(do_create_user())
 
     flag_user = random.choice(users_list)
     set_flag(flag_user[0])
-    add_user_to_group(flag_user[1])
+    add_user_to_group(flag_user[1], "FlagReaders")
+    add_user_groups(flag_user[1])
+
+    # Create user that player will login to
+    create_user('rctftechnical', 'RCTF_T3chN1c4l_Us3r!', 'RCTF', 'Technical')
+
+    # Create user from another misc-jeffrey for consistency’s sake
+    create_user('jeffrey.jones', 'flag{j3ff_c4nt_k33p_4_s3cr3t}', 'Jeffrey', 'Jones')
 
 
 if __name__ == "__main__":

@@ -1,0 +1,115 @@
+# Create the Groups OU
+dn: OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: organizationalUnit
+ou: Groups
+description: Organizational Unit for Clam-Corp Groups
+
+# LocalAdmins
+dn: CN=LocalAdmins,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: LocalAdmins
+name: LocalAdmins
+description: Local Administrators Group
+
+# ProxyUsers
+dn: CN=ProxyUsers,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: ProxyUsers
+name: ProxyUsers
+description: Proxy Users Group
+
+# VPNUsers
+dn: CN=VPNUsers,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: VPNUsers
+name: VPNUsers
+description: VPN Users Group
+
+# BackupAdmins
+dn: CN=BackupAdmins,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: BackupAdmins
+name: BackupAdmins
+description: Backup Administrators Group
+
+# BlogUsers
+dn: CN=BlogUsers,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: BlogUsers
+name: BlogUsers
+description: Blog Users Group
+
+# LinuxTeam
+dn: CN=LinuxTeam,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: LinuxTeam
+name: LinuxTeam
+description: Linux Team Group
+
+# DevOpsTeam
+dn: CN=DevOpsTeam,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: DevOpsTeam
+name: DevOpsTeam
+description: DevOps Team Group
+
+# SecurityTeam
+dn: CN=SecurityTeam,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: SecurityTeam
+name: SecurityTeam
+description: Security Team Group
+
+# NetworkTeam
+dn: CN=NetworkTeam,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: NetworkTeam
+name: NetworkTeam
+description: Network Team Group
+
+# WebTeam
+dn: CN=WebTeam,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: WebTeam
+name: WebTeam
+description: Web Team Group
+
+# LMSTeam
+dn: CN=LMSTeam,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: LMSTeam
+name: LMSTeam
+description: Learning Management System Team Group
+
+# StandardSoftwareDeployment
+dn: CN=StandardSoftwareDeployment,OU=Groups,DC=internal,DC=clam-corp,DC=com
+changetype: add
+objectClass: top
+objectClass: group
+sAMAccountName: StandardSoftwareDeployment
+name: StandardSoftwareDeployment
+description: Standard Software Deployment Group
