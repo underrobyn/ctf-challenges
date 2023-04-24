@@ -19,7 +19,7 @@ def create_admin_user() -> None:
     user = User(
         username=ADMIN_USERNAME,
         name='Mx Admin',
-        email='webmaster@localhost.localdomain'
+        email='appadmin@mail.internal.clam-corp.com'
     )
     password = get_random_password(24)
     print(password)

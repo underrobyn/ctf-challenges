@@ -2,9 +2,8 @@
 
 docker build -t rctf_web_hostablog .
 
-docker container rm rctf_hostablog_app
-
 docker run \
+    --rm \
     -p 8080:80 \
     --name rctf_hostablog_app \
     rctf_web_hostablog

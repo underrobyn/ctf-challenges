@@ -11,7 +11,7 @@ tags_metadata = [
     },
     {
         'name': 'auth',
-        'description': 'API endpoints for tokens'
+        'description': 'API endpoints for app tokens'
     },
     {
         'name': 'flag',
@@ -21,8 +21,8 @@ tags_metadata = [
 
 app = FastAPI(
     title="Administration Portal",
-    description='Administrating access to our apps API',
-    version="0.0.1-beta",
+    description='ClamCorp investor app authentication API',
+    version="0.0.2-beta",
     openapi_tags=tags_metadata
 )
 

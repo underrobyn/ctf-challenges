@@ -3,6 +3,7 @@ version: '3.9'
 services:
   samba-ad-dc:
     build: .
+    image: robynctf.azurecr.io/misc_directorysnooping
     hostname: ad-prd01.internal.clam-corp.com
     cap_add:
       - SYS_ADMIN
