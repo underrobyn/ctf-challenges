@@ -5,12 +5,16 @@ from flask import Flask, abort, session, request, jsonify, render_template
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from os import environ
-from .utils import update_conversation, clean_history, calculate_weight, TOKEN_USAGE_LIMIT, CONVERSATION_MESSAGE_LIMIT, INITIAL_MESSAGE, EMAIL_LIST, out_error
+from .utils import update_conversation, clean_history, calculate_weight, TOKEN_USAGE_LIMIT, CONVERSATION_MESSAGE_LIMIT,\
+    INITIAL_MESSAGE, EMAIL_LIST, out_error, get_user_message_count
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
 app.config['RATELIMIT_HEADERS_ENABLED'] = True
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_KEY_PREFIX'] = 'rctf_misc_jeffrey_'
+app.config['SECRET_KEY'] = environ['APP_SECRET_KEY']
 
 limiter = Limiter(
     get_remote_address,
@@ -32,11 +36,6 @@ def custom_date_format(offset_in_mins: int):
 @app.errorhandler(429)
 def handle_rate_limit_exceeded(e):
     return jsonify(out_error(f'{e}')), 429
-
-
-#@app.before_request
-#def make_session_permanent():
-#    session.permanent = True
 
 
 @app.after_request
@@ -95,6 +94,7 @@ def api_history():
 
     history = session.get(f"conversation_{email_id}", [])
     safe_history = clean_history(history)
+    user_message_count = get_user_message_count(history)
 
     token_use_count = 0
     if len(history) == 0:
@@ -108,7 +108,8 @@ def api_history():
     return jsonify({
         'error': False,
         'response': safe_history,
-        "message_limit": CONVERSATION_MESSAGE_LIMIT,
+        'message_limit': CONVERSATION_MESSAGE_LIMIT,
+        'message_count': user_message_count,
         'tokens': token_use_count,
         'token_limit': TOKEN_USAGE_LIMIT
     })
@@ -130,11 +131,11 @@ def main():
     load_dotenv()
     logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(asctime)s - %(message)s')
 
-    if 'OPENAI_API_KEY' not in environ:
-        logging.error('OPENAI_API_KEY is not defined in the environment')
-        exit(1)
+    for env_var in ['APP_SECRET_KEY', 'OPENAI_API_KEY']:
+        if env_var not in environ:
+            logging.error(f'{env_var} is not defined in the environment')
+            exit(1)
 
-    app.secret_key = environ['OPENAI_API_KEY']
     app.run(debug=True, port=5000)
 
 

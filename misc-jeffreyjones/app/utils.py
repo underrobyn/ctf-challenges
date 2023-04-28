@@ -7,8 +7,8 @@ from PromptFileParser import PromptError, PromptParser
 
 
 MODEL = "gpt-3.5-turbo"
-TOKEN_USAGE_LIMIT = 750
-CONVERSATION_MESSAGE_LIMIT = 6
+TOKEN_USAGE_LIMIT = 850
+CONVERSATION_MESSAGE_LIMIT = 7
 enc = tiktoken.encoding_for_model(MODEL)
 
 
