@@ -8,7 +8,7 @@ from PromptFileParser import PromptError, PromptParser
 
 MODEL = "gpt-3.5-turbo"
 TOKEN_USAGE_LIMIT = 750
-CONVERSATION_MESSAGE_LIMIT = 11
+CONVERSATION_MESSAGE_LIMIT = 6
 enc = tiktoken.encoding_for_model(MODEL)
 
 
@@ -64,6 +64,10 @@ def clean_history(conversation_history: dict) -> list:
     return user_conversation
 
 
+def get_user_message_count(conversation_history: dict) -> int:
+    return sum(1 for message in conversation_history if message['role'] == 'user')
+
+
 def update_conversation(email_id, user_message, session) -> dict:
     session_key = f"conversation_{email_id}"
     conversation_history = session.get(session_key, [])
@@ -84,6 +88,7 @@ def update_conversation(email_id, user_message, session) -> dict:
 
     conversation_history.append({"role": "user", "content": user_message})
     current_conversation_weight = calculate_weight(conversation_history)
+    user_message_count = get_user_message_count(conversation_history)
 
     if current_conversation_weight > TOKEN_USAGE_LIMIT:
         history_tmp = clean_history(conversation_history)
@@ -95,11 +100,12 @@ def update_conversation(email_id, user_message, session) -> dict:
             "error": False,
             "response": history_tmp,
             "message_limit": CONVERSATION_MESSAGE_LIMIT,
+            "message_count": user_message_count,
             "tokens": current_conversation_weight,
             "token_limit": TOKEN_USAGE_LIMIT
         }
 
-    if len(conversation_history) > CONVERSATION_MESSAGE_LIMIT + 1:
+    if user_message_count > CONVERSATION_MESSAGE_LIMIT:
         history_tmp = clean_history(conversation_history)
         history_tmp.append({
             'role': 'system',
@@ -109,6 +115,7 @@ def update_conversation(email_id, user_message, session) -> dict:
             "error": False,
             "response": history_tmp,
             "message_limit": CONVERSATION_MESSAGE_LIMIT,
+            "message_count": user_message_count,
             "tokens": current_conversation_weight,
             "token_limit": TOKEN_USAGE_LIMIT
         }
@@ -138,6 +145,7 @@ def update_conversation(email_id, user_message, session) -> dict:
         "error": False,
         "response": clean_history(conversation_history),
         "message_limit": CONVERSATION_MESSAGE_LIMIT,
+        "message_count": user_message_count,
         "tokens": calculate_weight(conversation_history),
         "openai_tokens": openai_result['usage'],
         "token_limit": TOKEN_USAGE_LIMIT

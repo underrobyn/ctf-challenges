@@ -29,7 +29,7 @@ function updateMessageBox(data) {
 
     let sender_map = {
         'system': 'Clam-Corp Mail Server &lt;postmaster@clam-corp.com&gt;',
-        'user': 'You &lt;james@rctf-technical.wales&gt;',
+        'user': 'You &lt;it-support@rctf-technical.wales&gt;',
         'assistant': 'Jeffrey Jones &lt;jeffrey.jones@clam-corp.com&gt;'
     };
 
@@ -68,7 +68,7 @@ function updateMessageBox(data) {
 
         lastEmailTitle.innerText = `${'Re: '.repeat(i)}Quick Question`;
         lastEmailText.innerText = `${lastContent.substring(0, 16)}...`;
-        tokenText.innerText = `Message count for this chat: ${data.response.length}/${data.message_limit}`
+        tokenText.innerText = `Message count for this chat: ${data.message_count}/${data.message_limit}`
     }
 
     chatBox.scrollTop = chatBox.scrollHeight;
