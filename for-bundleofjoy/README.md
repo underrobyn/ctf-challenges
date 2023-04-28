@@ -2,7 +2,7 @@
 
 One of Clam Corp's internal git repo's was leaked online, surely there was nothing too bad in it?
 
-Hint #1: The file provided is a git bundle file, open it by running: `git clone clam_corp_internal.gr`
+Hint #1: The file provided is a git bundle file, open it by running: `git clone joy.bundle for-bundleofjoy`
 
 Hint #2: Checked the commit history?
 
