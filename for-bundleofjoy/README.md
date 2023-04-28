@@ -7,3 +7,6 @@ Hint #1: The file provided is a git bundle file, open it by running: `git clone 
 Hint #2: Checked the commit history?
 
 Hint #3: There is a tool called GitLeaks that can help you... A lot
+
+
+Flag: flag{ghp_AtBfBGD9iicqpeBAj5KqWYO8wTvZhF3htFco}
