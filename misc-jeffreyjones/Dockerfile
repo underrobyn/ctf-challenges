@@ -21,4 +21,4 @@ COPY --chown=$UID:$UID ./app /code/app/
 EXPOSE 5000
 
 # If running behind a proxy like Nginx or Traefik add --proxy-headers
-CMD ["gunicorn", "app.app:app", "--bind=0.0.0.0:5000", "--workers=4"]
+CMD ["gunicorn", "app.app:app", "--bind=0.0.0.0:5000", "--workers=2"]

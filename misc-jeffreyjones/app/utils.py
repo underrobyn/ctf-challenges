@@ -50,7 +50,6 @@ def calculate_weight(conversation: dict) -> int:
     for message in conversation:
         msg_count = len(enc.encode(message['content']))
         token_total += msg_count
-        print(msg_count, message['content'])
 
     return token_total
 
@@ -130,8 +129,6 @@ def update_conversation(email_id, user_message, session) -> dict:
         return out_error("API experienced a rate limit error, please try again shortly")
     except Exception as err:
         return out_error(err)
-
-    print(openai_result)
 
     output_choice = openai_result.choices[0]
     assistant_message = output_choice.message.content

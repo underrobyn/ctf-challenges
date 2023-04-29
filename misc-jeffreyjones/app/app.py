@@ -129,14 +129,14 @@ def email_client(email_id: str):
 
 def main():
     load_dotenv()
-    logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(asctime)s - %(message)s')
+    logging.basicConfig(level=logging.WARNING, format='%(levelname)s:%(asctime)s - %(message)s')
 
     for env_var in ['APP_SECRET_KEY', 'OPENAI_API_KEY']:
         if env_var not in environ:
             logging.error(f'{env_var} is not defined in the environment')
             exit(1)
 
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)
 
 
 if __name__ == '__main__':
