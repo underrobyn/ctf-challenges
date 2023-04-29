@@ -4,7 +4,7 @@ services:
   samba-ad-dc:
     build: .
     image: robynctf.azurecr.io/misc_directorysnooping
-    hostname: ad-prd01.internal.clam-corp.com
+    hostname: ad.rctf-secondary.cybersoc.wales
     cap_add:
       - SYS_ADMIN
       - DAC_READ_SEARCH

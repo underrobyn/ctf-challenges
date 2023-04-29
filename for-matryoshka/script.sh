@@ -21,40 +21,40 @@ command -v zstd >/dev/null 2>&1 || { echo >&2 "zstd is required but not installe
 FILENAME="/data/flag.txt"
 
 # Archive flag.txt with tar
-tar -cf flag.tar $FILENAME
+tar -cf flag.1 $FILENAME
 
 # Archive the resulting file with gz
-gzip -c flag.tar > flag.tar.gz
+gzip -c flag.1 > flag.1.2
 
 # Archive the resulting file with rar
-rar a flag.tar.gz.rar flag.tar.gz
+rar a flag.1.2.3 flag.1.2
 
 # Archive the resulting file with zip
-zip flag.tar.gz.rar.zip flag.tar.gz.rar
+zip flag.1.2.3.4 flag.1.2.3
 
 # Archive the resulting file with iso
-genisoimage -o flag.tar.gz.rar.zip.iso -J -r flag.tar.gz.rar.zip
+genisoimage -o flag.1.2.3.4.5 -J -r flag.1.2.3.4
 
 # Archive the resulting file with xz
-xz -z -c flag.tar.gz.rar.zip.iso > flag.tar.gz.rar.zip.iso.xz
+xz -z -c flag.1.2.3.4.5 > flag.1.2.3.4.5.6
 
 # Archive the resulting file with bzip2
-bzip2 -z -c flag.tar.gz.rar.zip.iso.xz > flag.tar.gz.rar.zip.iso.xz.bz2
+bzip2 -z -c flag.1.2.3.4.5.6 > flag.1.2.3.4.5.6.7
 
 # Archive the resulting file with 7z
-7z a flag.tar.gz.rar.zip.iso.xz.bz2.7z flag.tar.gz.rar.zip.iso.xz.bz2
+7z a flag.1.2.3.4.5.6.8 flag.1.2.3.4.5.6.7
 
 # Archive the resulting file with z (compress)
-compress -c flag.tar.gz.rar.zip.iso.xz.bz2.7z > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z
+compress -c flag.1.2.3.4.5.6.8 > flag.1.2.3.4.5.6.8.9
 
 # Archive the resulting file with lz
-lzip -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz
+lzip -c flag.1.2.3.4.5.6.8.9 > flag.1.2.3.4.5.6.8.9.10
 
 # Archive the resulting file with lz4
-lz4 -z -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4
+lz4 -z -c flag.1.2.3.4.5.6.8.9.10 > flag.1.2.3.4.5.6.8.9.10.11
 
 # Archive the resulting file with zstd
-zstd -z -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4 > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4.zst
+zstd -z -c flag.1.2.3.4.5.6.8.9.10.11 > flag.1.2.3.4.5.6.8.9.10.11.12
 
 
 ### VERIFY SCRIPT
@@ -63,10 +63,10 @@ zstd -z -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4 > flag.tar.gz.rar.zip.iso.
 mkdir -p /data/verify
 cd /data/verify || exit 1
 
-cp /data/flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4.zst /data/verify/
+cp /data/flag.1.2.3.4.5.6.8.9.10.11.12 /data/verify/
 
 # Unarchive zst
-zstd -d -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4.zst > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4
+zstd -d -c flag.1.2.3.4.5.6.8.9.10.11.12 > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4
 
 # Unarchive lz4
 lz4 -d -c flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz.lz4 > flag.tar.gz.rar.zip.iso.xz.bz2.7z.Z.lz
