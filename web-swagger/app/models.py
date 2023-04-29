@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker, relationship
 from passlib.context import CryptContext
 
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./app.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/app.db"
 if 'DATABASE_URI' in environ:
     SQLALCHEMY_DATABASE_URL = environ['DATABASE_URI']
 
