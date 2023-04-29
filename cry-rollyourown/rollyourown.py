@@ -1,6 +1,6 @@
 #!/bin/python3
 
-def xor_cipher(text: str, key) -> str:
+def cipher(text: str, key) -> str:
     result = []
     key = format(key, '016b')
 
@@ -13,16 +13,17 @@ def xor_cipher(text: str, key) -> str:
 
 
 def encrypt(text, key):
-    return xor_cipher(text, key)
+    return cipher(text, key)
 
 
 def decrypt(encrypted_text, key):
-    return xor_cipher(encrypted_text, key)
+    return cipher(encrypted_text, key)
 
 
 def read_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         return file.read()
+
 
 def write_file(file_path, content):
     with open(file_path, 'w', encoding='utf-8') as file:
