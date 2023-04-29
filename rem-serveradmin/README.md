@@ -1,7 +1,12 @@
 # Rem-ServerAdmin
 
+Hmmm... There must be something interesting on this server... Why don't we do some snooping around?
 
-SSH in with user:Password123
+Username: `user`
+Password: `Password123`
+Sign on to the machine via SSH: `ssh user@localhost -p PORT`
 
-`ssh user@localhost -p 1022
-user@localhost's password:`
+
+Hint 1: the serveradmin user can do a lot of stuff...
+
+Hint 2: Have you checked the /home folders?

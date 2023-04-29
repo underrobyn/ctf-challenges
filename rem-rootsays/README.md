@@ -12,6 +12,6 @@ flag{41w4y5_10ck_d0wn_5ud0}
 
 
 
-NetCat into this machine and find the flag.
+ncat into the machine and find the flag.
 
 Hint 1: Try the `sudo -l` command
