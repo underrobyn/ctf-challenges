@@ -15,6 +15,8 @@ void encode_flag(char *flag) {
 }
 
 // lol add in this random pi calculation function to confuse anyone trying to debug in Ghidra or other SRE tools
+// Monte-Carlo PI caluclation adapted from: https://www.geeksforgeeks.org/estimating-value-pi-using-monte-carlo/
+// Accessed: 2023/04/16
 double monte_carlo_pi(unsigned int num_points) {
     unsigned int points_inside_circle = 0;
     double x, y, distance;
